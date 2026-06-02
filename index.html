@@ -12,18 +12,41 @@
             font-family: 'Inter', -apple-system, sans-serif;
         }
 
-        /* 1. ELEGANCKI CZARNY KURSOR (Standardowy CSS - Bezpieczny dla przeglądarek) */
-        html, body {
+        body {
             background-color: #050505;
             color: #ffffff;
             padding: 40px 20px;
             overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="2"><path d="M4.5 2.25l15 11.25-6.75 1.5 4.5 6.75-3 2-4.5-6.75-5.25 4.5z"/></svg>'), auto;
         }
 
-        /* Kursor wskazujący dla wszystkich elementów klikalnych */
-        button, .video-click-overlay, .welcome-btn {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="2"><path d="M4.5 2.25l15 11.25-6.75 1.5 4.5 6.75-3 2-4.5-6.75-5.25 4.5z"/></svg>'), pointer !important;
+        /* UKRYWAMY DOMYŚLNY KURSOR SYSTEMOWY NA PC */
+        @media (min-width: 769px) {
+            html, body, a, button, .video-card, .video-click-overlay, .welcome-btn {
+                cursor: none !important;
+            }
+        }
+
+        /* ELEGANCKIE CZARNE KÓŁECZKO Z BIAŁĄ OBWÓDKĄ */
+        #custom-cursor {
+            width: 18px;
+            height: 18px;
+            background: #000000;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none; /* Kursor nie blokuje kliknięć! */
+            z-index: 9999999;
+            transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+            display: none;
+        }
+
+        /* Pokazujemy customowy kursor tylko na urządzeniach z myszką (PC) */
+        @media (min-width: 769px) {
+            #custom-cursor {
+                display: block;
+            }
         }
 
         header {
@@ -63,7 +86,7 @@
             padding-bottom: 100px;
         }
 
-        /* 2. KARTA FILMU Z POTĘŻNYM EFEKTEM PODŚWIETLENIA (HOVER) */
+        /* KARTA FILMU Z POTĘŻNYM EFEKTEM PODŚWIETLENIA (HOVER) */
         .video-card {
             background: #101010;
             border-radius: 20px;
@@ -141,7 +164,7 @@
             background: #252525;
         }
 
-        /* 3. KINOWA ANIMACJA PLAY NA PEŁNY EKRAN */
+        /* KINOWA ANIMACJA PLAY NA PEŁNY EKRAN */
         .play-overlay {
             position: fixed;
             top: 0;
@@ -186,14 +209,14 @@
             margin-left: 6px;
         }
 
-        /* 4. ELEGANCKI KOMUNIKAT STARTOWY */
+        /* ELEGANCKI KOMUNIKAT STARTOWY */
         .welcome-backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000000; /* Głęboka czerń, chroni przed błędami renderowania */
+            background: #000000;
             z-index: 100000;
             display: flex;
             justify-content: center;
@@ -211,11 +234,10 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
 
-        /* Nowe logo LKF bez spacji i przerw */
         .welcome-logo {
             font-size: 2.2rem;
             font-weight: 900;
-            letter-spacing: -2px; /* Ściśnięte literki */
+            letter-spacing: -2px;
             color: #ffffff;
             margin-bottom: 20px;
             text-transform: uppercase;
@@ -248,6 +270,8 @@
 </head>
 <body>
 
+    <div id="custom-cursor"></div>
+
     <div id="welcomeScreen" class="welcome-backdrop">
         <div class="welcome-box">
             <div class="welcome-logo">LKF</div>
@@ -269,7 +293,7 @@
 
     <main class="video-feed">
         
-        <div class="video-card">
+        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
                 <iframe id="streamable-frame-1" src="https://streamable.com/e/b4xaxh?autoplay=0" allow="autoplay" allowfullscreen></iframe>
@@ -277,12 +301,12 @@
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 1</div>
                 <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button>
+                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">84</span></button>
                 </div>
             </div>
         </div>
 
-        <div class="video-card">
+        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
                 <iframe id="streamable-frame-2" src="https://streamable.com/e/472z5x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
@@ -290,12 +314,12 @@
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 2</div>
                 <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">62</span></button>
+                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">62</span></button>
                 </div>
             </div>
         </div>
 
-        <div class="video-card">
+        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-3')"></div>
                 <iframe id="streamable-frame-3" src="https://streamable.com/e/ppshdk?autoplay=0" allow="autoplay" allowfullscreen></iframe>
@@ -303,7 +327,7 @@
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 3</div>
                 <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">71</span></button>
+                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">71</span></button>
                 </div>
             </div>
         </div>
@@ -311,6 +335,27 @@
     </main>
 
     <script>
+        // SKRYPT SŁUŻĄCY DO OBSŁUGI CUSTOMOWEGO KURSORA
+        const cursor = document.getElementById('custom-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Powiększenie kółka po najechaniu na interaktywne sekcje
+        function expandCursor() {
+            cursor.style.width = '32px';
+            cursor.style.height = '32px';
+            cursor.style.backgroundColor = 'rgba(255, 255, 255, 0.2)';
+        }
+
+        function shrinkCursor() {
+            cursor.style.width = '18px';
+            cursor.style.height = '18px';
+            cursor.style.backgroundColor = '#000000';
+        }
+
         // KINOWA ANIMACJA PLAY
         function triggerPlayAnimation(overlayElement, iframeId) {
             const animationScreen = document.getElementById('playAnimationScreen');
