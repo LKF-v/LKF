@@ -12,40 +12,17 @@
             font-family: 'Inter', -apple-system, sans-serif;
         }
 
-        body {
+        /* CZARNY ELEGANCKI KURSOR DLA PC – AKTYWNY NA CAŁEJ STRONIE I ELEMENTACH KLIKALNYCH */
+        html, body {
             background-color: #050505;
             color: #ffffff;
             padding: 40px 20px;
             overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="2"><path d="M4.5 2.25l15 11.25-6.75 1.5 4.5 6.75-3 2-4.5-6.75-5.25 4.5z"/></svg>'), auto;
         }
 
-        /* UKRYWAMY DOMYŚLNY BIAŁY KURSOR NA KOMPUTERACH */
-        @media (min-width: 769px) {
-            html, body, a, button, .video-card, .video-click-overlay, .modal-content {
-                cursor: none !important;
-            }
-        }
-
-        /* TWORZYMY NOWY, ELEGANCKI CZARNY KURSOR Z BIAŁĄ POŚWIATĄ */
-        #custom-cursor {
-            width: 20px;
-            height: 20px;
-            background: #000000;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-            position: fixed;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 99999;
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            display: none;
-        }
-
-        @media (min-width: 769px) {
-            #custom-cursor {
-                display: block;
-            }
+        a, button, .video-card, .video-click-overlay, .modal-btn {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="2"><path d="M4.5 2.25l15 11.25-6.75 1.5 4.5 6.75-3 2-4.5-6.75-5.25 4.5z"/></svg>'), pointer !important;
         }
 
         header {
@@ -85,7 +62,7 @@
             padding-bottom: 100px;
         }
 
-        /* KARTA FILMU Z EFEKTEM HOVER */
+        /* KARTA FILMU Z POTĘŻNYM EFEKTEM PODŚWIETLENIA */
         .video-card {
             background: #101010;
             border-radius: 20px;
@@ -276,16 +253,13 @@
             transition: all 0.3s ease;
             width: 100%;
             box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+            display: block;
         }
 
         .modal-btn:hover {
             background: #059669;
             transform: translateY(-2px);
             box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
-        }
-
-        .modal-btn:active {
-            transform: translateY(1px);
         }
     </style>
 </head>
@@ -295,11 +269,9 @@
         <div class="modal-content">
             <div class="modal-icon">🎬</div>
             <p class="modal-text">Nowe filmy będą dodawane co jakiś czas, więc odwiedzaj stronę regularnie!</p>
-            <button class="modal-btn" onclick="closeWelcomeModal()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Przyjmuję do wiadomości</button>
+            <button class="modal-btn" onclick="closeWelcomeModal()">Przyjmuję do wiadomości</button>
         </div>
     </div>
-
-    <div id="custom-cursor"></div>
 
     <div id="playAnimationScreen" class="play-overlay">
         <div class="play-icon-animation">
@@ -314,7 +286,7 @@
 
     <main class="video-feed">
         
-        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+        <div class="video-card">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
                 <iframe id="streamable-frame-1" src="https://streamable.com/e/b4xaxh?autoplay=0" allow="autoplay" allowfullscreen></iframe>
@@ -322,73 +294,15 @@
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 1</div>
                 <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">84</span></button>
+                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button>
                 </div>
             </div>
         </div>
 
-        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+        <div class="video-card">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
                 <iframe id="streamable-frame-2" src="https://streamable.com/e/472z5x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
-                <div class="video-title">Początki LKF odc. 2</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">62</span></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
-            <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-3')"></div>
-                <iframe id="streamable-frame-3" src="https://streamable.com/e/ppshdk?autoplay=0" allow="autoplay" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <div class="video-title">Początki LKF odc. 3</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">71</span></button>
-                </div>
-            </div>
-        </div>
-
-    </main>
-
-    <script>
-        // DIZAJNERSKI KURSOR MYSZY
-        const cursor = document.getElementById('custom-cursor');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        function expandCursor() {
-            cursor.style.width = '35px';
-            cursor.style.height = '35px';
-            cursor.style.backgroundColor = 'rgba(255,255,255,0.2)';
-        }
-
-        function shrinkCursor() {
-            cursor.style.width = '20px';
-            cursor.style.height = '20px';
-            cursor.style.backgroundColor = '#000000';
-        }
-
-        // OBSŁUGA MODALA STARTOWEGO
-        function closeWelcomeModal() {
-            const modal = document.getElementById('welcomeModal');
-            modal.style.opacity = '0';
-            setTimeout(() => {
-                modal.remove(); // Całkowicie usuwamy okno z pamięci strony
-            }, 500);
-        }
-
-        // KINOWA ANIMACJA PLAY
-        function triggerPlayAnimation(overlayElement, iframeId) {
-            const animationScreen = document.getElementById('playAnimationScreen');
-            const iframe = document.getElementById(iframeId);
-            
-            animationScreen.classList.add('active');
-            overlayElement.remove();
+                <div class="video-title">Począt
