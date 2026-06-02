@@ -21,7 +21,7 @@
 
         /* UKRYWAMY DOMYŚLNY KURSOR SYSTEMOWY NA PC */
         @media (min-width: 769px) {
-            html, body, a, button, .video-card, .video-click-overlay, .welcome-btn, .filter-btn, .logo {
+            html, body, a, button, .video-card, .video-click-overlay, .welcome-btn, .filter-btn, .logo, .history-close {
                 cursor: none !important;
             }
         }
@@ -60,12 +60,13 @@
             color: #ffffff;
             text-transform: uppercase;
             display: inline-block;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, text-shadow 0.3s ease;
             user-select: none;
         }
 
         .logo:hover {
             transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
         }
 
         .subtitle {
@@ -77,37 +78,94 @@
             margin-bottom: 25px;
         }
 
-        /* --- HISTORIA POWSTANIA LKF (PŁYNNE ROZWIJANIE) --- */
-        .history-container {
-            max-width: 650px;
-            margin: 0 auto 35px auto;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, padding 0.4s ease;
+        /* --- NOWE EKRAN HISTORII (MODAL ROYAL / ELEGANCKI POP-UP) --- */
+        .history-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 200000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             opacity: 0;
-            background: #0c0c0c;
-            border-radius: 16px;
-            border: 0 solid #1a1a1a;
-            padding: 0 25px;
-            text-align: left;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
         }
 
-        .history-container.open {
-            max-height: 400px; /* Bezpieczna wysokość dla tekstu */
+        .history-overlay.open {
             opacity: 1;
-            padding: 25px;
-            border-width: 1px;
-            margin-bottom: 45px;
+            pointer-events: auto;
+        }
+
+        .history-modal {
+            background: #0a0a0a;
+            border: 1px solid #1c1c1c;
+            padding: 50px 40px;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.8), 0 0 40px rgba(212, 175, 55, 0.05);
+        }
+
+        .history-overlay.open .history-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Minimalistyczny, elegancki krzyżyk zamykania */
+        .history-close {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 1.5rem;
+            font-weight: 300;
+            transition: color 0.2s, transform 0.2s;
+            padding: 5px;
+            line-height: 1;
+        }
+
+        .history-close:hover {
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .history-title {
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+            color: #ffffff;
+            border-bottom: 1px solid #1c1c1c;
+            padding-bottom: 15px;
         }
 
         .history-text {
-            font-size: 0.98rem;
-            line-height: 1.7;
-            color: #b0b0b0;
+            font-size: 1.02rem;
+            line-height: 1.8;
+            color: #cccccc;
+            text-align: justify;
         }
 
+        /* Akcenty kolorystyczne pasujące do ciemnego premium */
         .history-text strong {
             color: #ffffff;
+            font-weight: 700;
+        }
+
+        .history-text .gold-text {
+            color: #d4af37; /* Delikatny złoty akcent królewski */
+            font-weight: 700;
         }
 
         /* --- SEKCJA ZAKŁADEK (FILTRÓW) --- */
@@ -356,17 +414,22 @@
         </div>
     </div>
 
-    <header>
-        <!-- Logo z funkcją klikania i powiększania kursora -->
-        <div class="logo" onclick="toggleHistory()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">LKF</div>
-        <div class="subtitle">Lisecka Kampania Filmowa</div>
-
-        <!-- Ukryta sekcja historii, która wysuwa się płynnie -->
-        <div id="lkfHistory" class="history-container">
+    <!-- KINOWE OKNO MODALNE Z HISTORIĄ LKF -->
+    <div id="historyOverlay" class="history-overlay" onclick="closeHistoryViaOverlay(event)">
+        <div class="history-modal">
+            <button class="history-close" onclick="closeHistory()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">✕</button>
+            <div class="history-title">Królewska Kronika LKF</div>
             <p class="history-text">
-                Marka <strong>LKF</strong> powstała na początku 2023 roku w współpracy z uczniami Liceum Ogólnokształcącego w Łaszczowie. Głównym zarządcą kampanii stał się przodek Jaśnieoświeconego z Lisek. Kampania w bardzo szybkim tempie zaczęła zyskiwać popularność i przynosić ogromne zyski. Lisecka Kampania Filmowa do tego momentu otrzymała łącznie 23 nagrody, które były związane z twórczością i niesamowitą jakością materiałów.
+                Marka <strong>LKF</strong> powstała na początku 2023 roku w współpracy z uczniami Liceum Ogólnokształcącego w Łaszczowie. Głównym zarządcą kampanii stał się przodek Jaśnieoświeconego z Lisek. Kampania w bardzo szybkim tempie zaczęła zyskiwać popularność i przynosić ogromne zyski. <br><br>
+                Lisecka Kampania Filmowa do tego momentu otrzymała łącznie <span class="gold-text">23 nagrody</span>, które były związane z twórczością i niesamowitą jakością materiałów. Ta unikalna filmowa inicjatywa na stałe wpisała się w kanon nowoczesnej sztuki niezależnej, łącząc pasję młodego pokolenia z bezkompromisowym wizjonerstwem. Dziedzictwo LKF trwa nieprzerwanie, przesuwając granice kinematografii z każdym kolejnym odcinkiem.
             </p>
         </div>
+    </div>
+
+    <header>
+        <!-- Logo aktywujące ekskluzywny pop-up -->
+        <div class="logo" onclick="openHistory()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">LKF</div>
+        <div class="subtitle">Lisecka Kampania Filmowa</div>
 
         <!-- MENU ZAKŁADEK FILTRUJĄCYCH -->
         <div class="filter-menu">
@@ -536,7 +599,7 @@
             </div>
         </div>
 
-        <!-- NOWY: ODCINEK 15 (RUDY) -->
+        <!-- ODCINEK 15 (RUDY) -->
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-15')"></div>
@@ -548,7 +611,7 @@
             </div>
         </div>
 
-        <!-- NOWY: ODCINEK 16 (OGÓLNE) -->
+        <!-- ODCINKI 16-21 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-16')"></div>
@@ -560,7 +623,6 @@
             </div>
         </div>
 
-        <!-- NOWY: ODCINEK 17 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-17')"></div>
@@ -572,7 +634,6 @@
             </div>
         </div>
 
-        <!-- NOWY: ODCINEK 18 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-18')"></div>
@@ -584,7 +645,6 @@
             </div>
         </div>
 
-        <!-- NOWY: ODCINEK 19 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-19')"></div>
@@ -596,7 +656,6 @@
             </div>
         </div>
 
-        <!-- NOWY: ODCINEK 20 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-20')"></div>
@@ -608,7 +667,6 @@
             </div>
         </div>
 
-        <!-- NOWY: ODCINEK 21 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-21')"></div>
@@ -623,6 +681,14 @@
     </main>
 
     <script>
+        // AUDIO HOOKS (Darmowe, czyste efekty audio z chmury)
+        const paperSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2056/2056-84.wav');
+        const royalSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2756/2756-84.wav');
+
+        // Ustawienia głośności, aby nie ogłuszyć użytkownika
+        paperSound.volume = 0.6;
+        royalSound.volume = 0.5;
+
         // OBSŁUGA CUSTOMOWEGO KURSORA
         const cursor = document.getElementById('custom-cursor');
         
@@ -643,10 +709,25 @@
             cursor.style.backgroundColor = '#000000';
         }
 
-        // PŁYNNE WYSYWANIE HISTORII LKF
-        function toggleHistory() {
-            const historyBox = document.getElementById('lkfHistory');
-            historyBox.classList.toggle('open');
+        // AKTYWACJA KRÓLEWSKIEGO MODALA
+        function openHistory() {
+            document.getElementById('historyOverlay').classList.add('open');
+            
+            // Odtwarzanie dźwięków w tym samym momencie
+            paperSound.currentTime = 0;
+            royalSound.currentTime = 0;
+            paperSound.play().catch(e => console.log("Audio play blocked by browser. Click anywhere first."));
+            royalSound.play().catch(e => console.log("Audio play blocked by browser."));
+        }
+
+        function closeHistory() {
+            document.getElementById('historyOverlay').classList.remove('open');
+        }
+
+        function closeHistoryViaOverlay(e) {
+            if (e.target.id === 'historyOverlay') {
+                closeHistory();
+            }
         }
 
         // FUNKCJA FILTROWANIA FILMÓW
