@@ -78,7 +78,7 @@
             margin-bottom: 25px;
         }
 
-        /* --- NOWE EKRAN HISTORII (MODAL ROYAL / ELEGANCKI POP-UP) --- */
+        /* --- NOWY EKRAN HISTORII (MODAL ROYAL) --- */
         .history-overlay {
             position: fixed;
             top: 0;
@@ -157,7 +157,6 @@
             text-align: justify;
         }
 
-        /* Akcenty kolorystyczne pasujące do ciemnego premium */
         .history-text strong {
             color: #ffffff;
             font-weight: 700;
@@ -395,19 +394,17 @@
 </head>
 <body>
 
-    <!-- Element ozdobnego kursora -->
     <div id="custom-cursor"></div>
 
-    <!-- KOMUNIKAT STARTOWY -->
+    <!-- KOMUNIKAT STARTOWY (Odblokowuje też audio w przeglądarce) -->
     <div id="welcomeScreen" class="welcome-backdrop">
         <div class="welcome-box">
             <div class="welcome-logo">LKF</div>
             <p class="welcome-text">Nowe filmy będą dodawane co jakiś czas, więc odwiedzaj stronę regularnie!</p>
-            <button class="welcome-btn" onclick="document.getElementById('welcomeScreen').style.display='none';">Przyjmuję do wiadomości</button>
+            <button class="welcome-btn" onclick="initAudioAndCloseWelcome()">Przyjmuję do wiadomości</button>
         </div>
     </div>
 
-    <!-- EKRAN ANIMACJI PLAY -->
     <div id="playAnimationScreen" class="play-overlay">
         <div class="play-icon-animation">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -420,18 +417,16 @@
             <button class="history-close" onclick="closeHistory()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">✕</button>
             <div class="history-title">Królewska Kronika LKF</div>
             <p class="history-text">
-                Marka <strong>LKF</strong> powstała na początku 2023 roku w współpracy z uczniami Liceum Ogólnokształcącego w Łaszczowie. Głównym zarządcą kampanii stał się przodek Jaśnieoświeconego z Lisek. Kampania w bardzo szybkim tempie zaczęła zyskiwać popularność i przynosić ogromne zyski. <br><br>
+                Marka <strong>LKF</strong> powstała na początku 2023 roku w współpracy z uczniemi Liceum Ogólnokształcącego w Łaszczowie. Głównym zarządcą kampanii stał się przodek Jaśnieoświeconego z Lisek. Kampania w bardzo szybkim tempie zaczęła zyskiwać popularność i przynosić ogromne zyski. <br><br>
                 Lisecka Kampania Filmowa do tego momentu otrzymała łącznie <span class="gold-text">23 nagrody</span>, które były związane z twórczością i niesamowitą jakością materiałów. Ta unikalna filmowa inicjatywa na stałe wpisała się w kanon nowoczesnej sztuki niezależnej, łącząc pasję młodego pokolenia z bezkompromisowym wizjonerstwem. Dziedzictwo LKF trwa nieprzerwanie, przesuwając granice kinematografii z każdym kolejnym odcinkiem.
             </p>
         </div>
     </div>
 
     <header>
-        <!-- Logo aktywujące ekskluzywny pop-up -->
         <div class="logo" onclick="openHistory()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">LKF</div>
         <div class="subtitle">Lisecka Kampania Filmowa</div>
 
-        <!-- MENU ZAKŁADEK FILTRUJĄCYCH -->
         <div class="filter-menu">
             <button class="filter-btn active" onclick="filterVideos('all', this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Wszystkie</button>
             <button class="filter-btn" onclick="filterVideos('poczatki', this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Początki LKF</button>
@@ -441,8 +436,7 @@
     </header>
 
     <main class="video-feed">
-        
-        <!-- ODCINKI 1-3 (POCZĄTKI) -->
+        <!-- Sekcja wideo pozostaje taka sama -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
@@ -476,7 +470,6 @@
             </div>
         </div>
 
-        <!-- ODCINKI 4-10 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-4')"></div>
@@ -554,7 +547,6 @@
             </div>
         </div>
 
-        <!-- ODCINKI 11-14 (RUDY) -->
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-11')"></div>
@@ -599,7 +591,6 @@
             </div>
         </div>
 
-        <!-- ODCINEK 15 (RUDY) -->
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-15')"></div>
@@ -611,7 +602,6 @@
             </div>
         </div>
 
-        <!-- ODCINKI 16-21 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-16')"></div>
@@ -677,21 +667,91 @@
                 <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">99</span></button></div>
             </div>
         </div>
-
     </main>
 
     <script>
-        // AUDIO HOOKS (Darmowe, czyste efekty audio z chmury)
-        const paperSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2056/2056-84.wav');
-        const royalSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2756/2756-84.wav');
+        // SYSTEM SYNTETYZOWANIA AUDIO (Rozwiązuje problem blokad i braku plików)
+        let audioCtx = null;
 
-        // Ustawienia głośności, aby nie ogłuszyć użytkownika
-        paperSound.volume = 0.6;
-        royalSound.volume = 0.5;
+        function initAudioAndCloseWelcome() {
+            // Inicjalizujemy system audio po kliknięciu użytkownika
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            document.getElementById('welcomeScreen').style.display = 'none';
+        }
+
+        // GENERATOR SZELESTU PAPIERU (Filtrowany szum biały)
+        function playPaperSound() {
+            if (!audioCtx) return;
+            
+            const bufferSize = audioCtx.sampleRate * 0.4; // 0.4 sekundy szelestu
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+
+            // Filtr nadający dźwiękowi "papierowy" charakter
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 1200;
+            filter.Q.value = 1.5;
+
+            const gain = audioCtx.createGain();
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+
+            noise.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.start();
+        }
+
+        // GENERATOR MUZYKI KRÓLEWSKIEJ (Dostojne filmowe uderzenie)
+        function playRoyalFanfare() {
+            if (!audioCtx) return;
+
+            const now = audioCtx.currentTime;
+            
+            // Królewskie akordy (częstotliwości nut: C3, G3, C4, E4, G4)
+            const royalChords = [130.81, 196.00, 261.63, 329.63, 392.00];
+            
+            royalChords.forEach((freq, index) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                // Używamy fali piłokształtnej i trójkątnej dla efektu instrumentów dętych/smyczkowych
+                osc.type = index % 2 === 0 ? 'sawtooth' : 'triangle';
+                osc.frequency.setValueAtTime(freq, now);
+                
+                // Delikatne opóźnienie wyższych nut dodaje kinowej przestrzeni
+                const startDelay = index * 0.03;
+                
+                gain.gain.setValueAtTime(0, now);
+                gain.gain.linearRampToValueAtTime(0.08, now + startDelay + 0.1); 
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 2.5); // Dźwięk wybrzmiewa przez 2.5 sekundy
+
+                // Filtr wygładzający ostre kinowe brzmienie
+                const lowpass = audioCtx.createBiquadFilter();
+                lowpass.type = 'lowpass';
+                lowpass.frequency.setValueAtTime(1500, now);
+
+                osc.connect(lowpass);
+                lowpass.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start(now + startDelay);
+                osc.stop(now + 2.6);
+            });
+        }
 
         // OBSŁUGA CUSTOMOWEGO KURSORA
         const cursor = document.getElementById('custom-cursor');
-        
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
@@ -709,15 +769,13 @@
             cursor.style.backgroundColor = '#000000';
         }
 
-        // AKTYWACJA KRÓLEWSKIEGO MODALA
+        // OTWIRANIE I ZAMYKANIE MODALA
         function openHistory() {
             document.getElementById('historyOverlay').classList.add('open');
             
-            // Odtwarzanie dźwięków w tym samym momencie
-            paperSound.currentTime = 0;
-            royalSound.currentTime = 0;
-            paperSound.play().catch(e => console.log("Audio play blocked by browser. Click anywhere first."));
-            royalSound.play().catch(e => console.log("Audio play blocked by browser."));
+            // Uruchomienie efektów dźwiękowych bezpośrednio w przeglądarce
+            playPaperSound();
+            playRoyalFanfare();
         }
 
         function closeHistory() {
@@ -730,7 +788,6 @@
             }
         }
 
-        // FUNKCJA FILTROWANIA FILMÓW
         function filterVideos(category, button) {
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
@@ -745,7 +802,6 @@
             });
         }
 
-        // KINOWA ANIMACJA PLAY
         function triggerPlayAnimation(overlayElement, iframeId) {
             const animationScreen = document.getElementById('playAnimationScreen');
             const iframe = document.getElementById(iframeId);
@@ -760,12 +816,10 @@
             }, 900);
         }
 
-        // PRZYCISK LAJKA
         function fakeLike(button) {
             let countSpan = button.querySelector('.like-count');
             let currentLikes = parseInt(countSpan.innerText);
             countSpan.innerText = currentLikes + 1;
-            
             button.disabled = true;
             button.style.opacity = "0.5";
         }
