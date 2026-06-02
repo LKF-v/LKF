@@ -12,10 +12,12 @@
             font-family: 'Inter', -apple-system, sans-serif;
         }
 
-        body {
+        /* Elegancki czarny kursor dla całej strony */
+        html, body {
             background-color: #050505;
             color: #ffffff;
             padding: 40px 20px;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="1.5"><path d="M4.5 2.25l15 11.25-6.75 1.5 4.5 6.75-3 2-4.5-6.75-5.25 4.5z"/></svg>'), auto;
         }
 
         header {
@@ -45,34 +47,36 @@
             margin-top: 5px;
         }
 
-        /* Siatka z filmami - umożliwia scrolowanie w dół */
         .video-feed {
             max-width: 1200px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 50px;
+            display: flex;
+            justify-content: center;
             padding-bottom: 100px;
         }
 
+        /* Karta filmu z efektem podświetlania po najechaniu myszką */
         .video-card {
             background: #101010;
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid #1a1a1a;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: all 0.4s ease;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
             display: flex;
             flex-direction: column;
+            width: 100%;
+            max-width: 380px;
         }
 
+        /* Efekt podświetlenia gdy najeżdżasz kursorem */
         .video-card:hover {
-            transform: translateY(-10px);
-            border-color: #333;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.15), 0 20px 40px rgba(0,0,0,0.9);
         }
 
-        /* Idealny pionowy format 9:16 pod telefony i Shorts */
+        /* Format 9:16 z warstwą blokującą start pod animację */
         .video-container {
             position: relative;
             padding-bottom: 177.77%; 
@@ -89,15 +93,28 @@
             border: 0;
         }
 
-        .video-info {
-            padding: 20px;
+        /* Niewidzialna powłoka ułatwiająca kliknięcie w celu wywołania animacji play */
+        .video-click-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            background: transparent;
+            cursor: pointer;
         }
 
-        .video-meta {
-            font-size: 0.8rem;
-            color: #555;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .video-info {
+            padding: 25px;
+        }
+
+        /* Styl dedykowany dla tytułu filmu */
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #fff;
             margin-bottom: 15px;
         }
 
@@ -126,9 +143,62 @@
             color: #000;
             border-color: #fff;
         }
+
+        /* Pełnoekranowa kinowa animacja PLAY */
+        .play-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .play-overlay.active {
+            opacity: 1;
+        }
+
+        .play-icon-animation {
+            width: 100px;
+            height: 100px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0.5);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(255,255,255,0.6);
+        }
+
+        .play-overlay.active .play-icon-animation {
+            transform: scale(1.3);
+        }
+
+        .play-icon-animation svg {
+            width: 40px;
+            height: 40px;
+            fill: #050505;
+            margin-left: 6px;
+        }
     </style>
 </head>
 <body>
+
+    <!-- Ekran animacji PLAY -->
+    <div id="playAnimationScreen" class="play-overlay">
+        <div class="play-icon-animation">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+    </div>
 
     <header>
         <div class="logo">LKF</div>
@@ -137,41 +207,18 @@
 
     <main class="video-feed">
         
-        <!-- FILM 1 (TWÓJ AKTUALNY FILM ZE STREAMABLE) -->
+        <!-- JEDYNY FILM (TWÓJ ODCINEK ZE STREAMABLE) -->
         <div class="video-card">
             <div class="video-container">
-                <iframe src="https://streamable.com/e/b4xaxh" allowfullscreen></iframe>
+                <!-- Nakładka przechwytująca pierwsze kliknięcie, żeby wywołać animację -->
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
+                <iframe id="streamable-frame-1" src="https://streamable.com/e/b4xaxh?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
-                <div class="video-meta">Opublikowano: 2 czerwca 2026</div>
+                <!-- Tytuł Twojego pierwszego wideo -->
+                <div class="video-title">LKF - Odcinek 1</div>
                 <div class="interaction-bar">
                     <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- FILM 2 (DODATKOWY FILM DO SCROLLOWANIA) -->
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://streamable.com/e/mo99" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <div class="video-meta">Opublikowano: 28 maja 2026</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">42</span></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- FILM 3 (DODATKOWY FILM DO SCROLLOWANIA) -->
-        <div class="video-card">
-            <div class="video-container">
-                <iframe src="https://streamable.com/e/it5g" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <div class="video-meta">Opublikowano: 15 maja 2026</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">67</span></button>
                 </div>
             </div>
         </div>
@@ -179,7 +226,27 @@
     </main>
 
     <script>
-        // Funkcja wizualnego dodawania lajka bez bazy danych
+        // Funkcja obsługująca kinową animację PLAY na cały ekran
+        function triggerPlayAnimation(overlayElement, iframeId) {
+            const animationScreen = document.getElementById('playAnimationScreen');
+            const iframe = document.getElementById(iframeId);
+            
+            // 1. Włączamy pełnoekranową animację
+            animationScreen.classList.add('active');
+            
+            // 2. Usuwamy nakładkę kliknięcia, żeby można było normalnie pauzować film w playerze
+            overlayElement.remove();
+            
+            // 3. Po 800ms gasimy animację i odpalamy wideo z funkcją autoplay
+            setTimeout(() => {
+                animationScreen.classList.remove('active');
+                // Dodajemy komendę autoplay do linku ze Streamable
+                let currentSrc = iframe.src;
+                iframe.src = currentSrc.replace('autoplay=0', 'autoplay=1');
+            }, 800);
+        }
+
+        // Prosta funkcja fejkowych lajków
         function fakeLike(button) {
             let countSpan = button.querySelector('.like-count');
             let currentLikes = parseInt(countSpan.innerText);
