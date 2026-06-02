@@ -17,14 +17,16 @@
             background-color: #050505;
             color: #ffffff;
             padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
-        /* LOGO LKF - Białe, grube, ściśnięte */
         .logo {
             font-size: 5.5rem;
             font-weight: 900;
@@ -32,11 +34,11 @@
             color: #ffffff;
             text-transform: uppercase;
             display: inline-block;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease;
         }
 
         .logo:hover {
-            transform: scale(1.08);
+            transform: scale(1.05);
         }
 
         .subtitle {
@@ -47,35 +49,17 @@
             margin-top: 5px;
         }
 
-        /* Główna siatka - automatycznie układa filmy w rzędy */
-        .video-feed {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 50px;
-            padding-bottom: 100px;
-        }
-
-        /* Nowoczesna karta filmu */
-        .video-card {
+        .main-container {
+            max-width: 450px;
+            width: 100%;
             background: #101010;
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid #1a1a1a;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: all 0.4s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .video-card:hover {
-            transform: translateY(-10px);
-            border-color: #333;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
 
-        /* Kontener dla YouTube Shorts (Pionowy format 9:16) */
+        /* Format pionowy idealny dla Shorts z Odysee */
         .video-container {
             position: relative;
             padding-bottom: 177.77%; 
@@ -93,11 +77,16 @@
         }
 
         .video-info {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            padding: 25px;
+        }
+
+        /* Sekcja z datą publikacji */
+        .video-meta {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
         }
 
         .interaction-bar {
@@ -111,11 +100,11 @@
             background: #161616;
             border: 1px solid #252525;
             color: #fff;
-            padding: 10px 18px;
+            padding: 10px 20px;
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -129,85 +118,60 @@
 
         .comments-section {
             border-top: 1px solid #1a1a1a;
-            padding-top: 15px;
+            padding-top: 20px;
         }
 
         .comment-input-group {
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .comment-input-group input, .comment-input-group textarea {
             background: #161616;
             border: 1px solid #252525;
             color: #fff;
-            padding: 10px 12px;
+            padding: 12px;
             border-radius: 8px;
-            font-size: 0.85rem;
-            transition: border-color 0.2s;
+            font-size: 0.9rem;
         }
 
         .comment-input-group input:focus, .comment-input-group textarea:focus {
             outline: none;
-            border-color: #555;
+            border-color: #fff;
         }
 
         .submit-comment-btn {
             background: #fff;
             color: #000;
             border: none;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        }
-
-        .submit-comment-btn:hover {
-            background: #cccccc;
         }
 
         .comments-list {
-            max-height: 200px;
+            max-height: 250px;
             overflow-y: auto;
-            font-size: 0.85rem;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            padding-right: 5px;
-        }
-
-        /* Styl paska przewijania komentarzy */
-        .comments-list::-webkit-scrollbar {
-            width: 4px;
-        }
-        .comments-list::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 2px;
+            gap: 10px;
         }
 
         .comment {
             background: #161616;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             border-left: 2px solid #fff;
-            animation: fadeIn 0.4s ease;
         }
 
         .comment-author {
             font-weight: bold;
             color: #888;
-            margin-bottom: 3px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-bottom: 4px;
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -218,150 +182,96 @@
         <div class="subtitle">Lisecka Kampania Filmowa</div>
     </header>
 
-    <main class="video-feed">
+    <div class="main-container">
+        <div class="video-container">
+            <!-- Tutaj wkleiłem Twój oficjalny odtwarzacz z Odysee -->
+            <iframe src="https://odysee.com/$/embed/@LKF:b/LKF:d" allowfullscreen></iframe>
+        </div>
         
-        <!-- FILM 1 (TWÓJ FILM) -->
-        <div class="video-card" data-film-id="film1">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/Sv8J3tILZfM" allowfullscreen></iframe>
+        <div class="video-info">
+            <!-- Tutaj dodałem datę filmu z platformy Odysee -->
+            <div class="video-meta">Opublikowano: 2 czerwca 2026</div>
+
+            <div class="interaction-bar">
+                <button class="like-btn" onclick="addLike()">❤️ <span id="like-count">0</span></button>
             </div>
-            <div class="video-info">
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="addLike('film1', this)">❤️ <span class="like-count">0</span></button>
+            
+            <div class="comments-section">
+                <div class="comment-input-group">
+                    <input type="text" id="comment-name" placeholder="Twoje imię...">
+                    <textarea id="comment-text" placeholder="Dodaj komentarz..." rows="2"></textarea>
+                    <button class="submit-comment-btn" onclick="postComment()">Wyślij</button>
                 </div>
-                <div class="comments-section">
-                    <div class="comment-input-group">
-                        <input type="text" class="comment-name" placeholder="Twoje imię...">
-                        <textarea class="comment-text" placeholder="Dodaj komentarz..." rows="2"></textarea>
-                        <button class="submit-comment-btn" onclick="postComment('film1', this)">Wyślij</button>
-                    </div>
-                    <div class="comments-list"></div>
+                <div id="comments-list" class="comments-list">
+                    <!-- Komentarze z Supabase pojawią się tutaj -->
                 </div>
             </div>
         </div>
-
-        <!-- FILM 2 (PRZYKŁADOWY SHORT DO SCROLLOWANIA) -->
-        <div class="video-card" data-film-id="film2">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/F4tHL8lA3i0" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="addLike('film2', this)">❤️ <span class="like-count">0</span></button>
-                </div>
-                <div class="comments-section">
-                    <div class="comment-input-group">
-                        <input type="text" class="comment-name" placeholder="Twoje imię...">
-                        <textarea class="comment-text" placeholder="Dodaj komentarz..." rows="2"></textarea>
-                        <button class="submit-comment-btn" onclick="postComment('film2', this)">Wyślij</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- FILM 3 (PRZYKŁADOWY SHORT DO SCROLLOWANIA) -->
-        <div class="video-card" data-film-id="film3">
-            <div class="video-container">
-                <iframe src="https://www.youtube.com/embed/3nQNiWdeH2Q" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="addLike('film3', this)">❤️ <span class="like-count">0</span></button>
-                </div>
-                <div class="comments-section">
-                    <div class="comment-input-group">
-                        <input type="text" class="comment-name" placeholder="Twoje imię...">
-                        <textarea class="comment-text" placeholder="Dodaj komentarz..." rows="2"></textarea>
-                        <button class="submit-comment-btn" onclick="postComment('film3', this)">Wyślij</button>
-                    </div>
-                    <div class="comments-list"></div>
-                </div>
-            </div>
-        </div>
-
-    </main>
+    </div>
 
     <script>
-        // Połączenie z Twoją bazą danych Supabase
         const SUPABASE_URL = "https://iqcvbttwjodlqfmeatai.supabase.co";
         const SUPABASE_KEY = "sb_publishable_HWLux5LGKVtVS7mEW0aLug_NyFhVR85";
 
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Załaduj wszystko na starcie strony
         window.onload = function() {
-            loadAllLikes();
-            loadAllComments();
+            loadLikes();
+            loadComments();
         };
 
-        // --- OBSŁUGA POLUBIEŃ ---
-        async function loadAllLikes() {
-            let { data, error } = await supabase.from('lajki').select('*');
-            if (data) {
-                data.forEach(item => {
-                    // Szukamy karty filmu o odpowiednim ID (np. film1, film2)
-                    let card = document.querySelector(`[data-film-id="${item.film_id}"]`);
-                    if (card) {
-                        card.querySelector('.like-count').innerText = item.liczba;
-                    }
-                });
+        async function loadLikes() {
+            let { data, error } = await supabase.from('Lajki').select('liczba').limit(1);
+            if (data && data[0]) {
+                document.getElementById('like-count').innerText = data[0].liczba;
             }
         }
 
-        async function addLike(filmId, button) {
-            let countSpan = button.querySelector('.like-count');
+        async function addLike() {
+            let countSpan = document.getElementById('like-count');
             let currentLikes = parseInt(countSpan.innerText);
             let newLikes = currentLikes + 1;
-
-            // Aktualizacja lajków w bazie dla konkretnego filmu
-            const { error } = await supabase.from('lajki').update({ liczba: newLikes }).match({ film_id: filmId });
-
+            
+            const { error } = await supabase.from('Lajki').update({ liczba: newLikes }).match({ id: 1 });
+            
             if (!error) {
                 countSpan.innerText = newLikes;
-                button.disabled = true;
-                button.style.opacity = "0.4";
+                document.querySelector('.like-btn').disabled = true;
+                document.querySelector('.like-btn').style.opacity = "0.4";
             }
         }
 
-        // --- OBSŁUGA KOMENTARZY ---
-        async function loadAllComments() {
+        async function loadComments() {
             let { data: komentarze, error } = await supabase
-                .from('komentarze')
+                .from('Komentarze')
                 .select('*')
                 .order('created_at', { ascending: false });
 
-            // Czyszczenie starych widoków list
-            document.querySelectorAll('.comments-list').forEach(list => list.innerHTML = "");
+            const list = document.getElementById('comments-list');
+            list.innerHTML = "";
 
             if (komentarze) {
                 komentarze.forEach(c => {
-                    let card = document.querySelector(`[data-film-id="${c.film_id}"]`);
-                    if (card) {
-                        let list = card.querySelector('.comments-list');
-                        let div = document.createElement('div');
-                        div.className = 'comment';
-                        div.innerHTML = `<div class="comment-author">${c.imie}</div><div>${c.tresc}</div>`;
-                        list.appendChild(div);
-                    }
+                    let div = document.createElement('div');
+                    div.className = 'comment';
+                    div.innerHTML = `<div class="comment-author">${c.imie}</div><div>${c.tresc}</div>`;
+                    list.appendChild(div);
                 });
             }
         }
 
-        async function postComment(filmId, button) {
-            let card = button.closest('.video-card');
-            let nameInput = card.querySelector('.comment-name');
-            let textInput = card.querySelector('.comment-text');
+        async function postComment() {
+            const nameInput = document.getElementById('comment-name');
+            const textInput = document.getElementById('comment-text');
 
             if (nameInput.value.trim() === "" || textInput.value.trim() === "") return;
 
-            // Zapis do bazy danych z dołączeniem ID filmu
             const { error } = await supabase
-                .from('komentarze')
-                .insert([{ imie: nameInput.value, tresc: textInput.value, film_id: filmId }]);
+                .from('Komentarze')
+                .insert([{ imie: nameInput.value, tresc: textInput.value }]);
 
             if (!error) {
-                loadAllComments();
+                loadComments();
                 nameInput.value = '';
                 textInput.value = '';
             }
