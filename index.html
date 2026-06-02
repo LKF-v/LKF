@@ -5,82 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LKF - LISECKA KAMPANIA FILMOWA</title>
     <style>
+        /* RESET STYLÓW - PODSTAWA STABILNOŚCI */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: sans-serif;
         }
 
         body {
-            background-color: #050505;
+            background-color: #000000;
             color: #ffffff;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-top: 20px;
+            margin-bottom: 40px;
         }
 
         .logo {
-            font-size: 5.5rem;
+            font-size: 4rem;
             font-weight: 900;
-            letter-spacing: -0.06em;
-            color: #ffffff;
+            letter-spacing: -2px;
             text-transform: uppercase;
-            display: inline-block;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: scale(1.05);
         }
 
         .subtitle {
-            font-size: 0.85rem;
-            letter-spacing: 0.4em;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            color: #555;
+            color: #666666;
             margin-top: 5px;
         }
 
-        /* SIATKA Z FILMAMI */
+        /* SIATKA Z FILMAMI - RESPONSYWNA I STABILNA */
         .video-feed {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 40px;
-            padding-bottom: 100px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding-bottom: 80px;
         }
 
-        /* KARTA FILMU Z PODŚWIETLENIEM */
+        /* KARTA FILMU */
         .video-card {
-            background: #101010;
-            border-radius: 20px;
+            background: #111111;
+            border-radius: 15px;
             overflow: hidden;
-            border: 1px solid #1a1a1a;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #222222;
             display: flex;
             flex-direction: column;
         }
 
-        /* Efekt podświetlenia po najechaniu myszką na PC */
-        @media (min-width: 769px) {
+        /* Delikatne podświetlenie karty na komputerach */
+        @media (min-width: 768px) {
             .video-card:hover {
-                transform: translateY(-8px);
-                border-color: rgba(255, 255, 255, 0.4);
-                box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+                border-color: #555555;
             }
         }
 
+        /* FORMAT ODTWARZACZA 9:16 */
         .video-container {
             position: relative;
-            padding-bottom: 177.77%; 
+            padding-bottom: 177.77%;
             height: 0;
-            background: #000;
+            background: #000000;
         }
 
         .video-container iframe {
@@ -92,101 +84,156 @@
             border: 0;
         }
 
-        /* Powłoka ułatwiająca start animacji play */
-        .video-click-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 5;
-            background: transparent;
-            cursor: pointer;
-        }
-
         .video-info {
             padding: 20px;
-            background: #101010;
         }
 
         .video-title {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #ffffff;
             margin-bottom: 15px;
         }
 
         .interaction-bar {
             display: flex;
-            justify-content: flex-start;
         }
 
         .like-btn {
-            background: #161616;
-            border: 1px solid #252525;
-            color: #fff;
-            padding: 10px 18px;
-            border-radius: 30px;
+            background: #222222;
+            border: 1px solid #333333;
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
             font-weight: 600;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: background 0.2s;
+            gap: 6px;
         }
 
         .like-btn:hover {
-            background: #222;
+            background: #333333;
         }
 
-        /* KINOWA ANIMACJA PLAY */
-        .play-overlay {
+        /* PROSTY I NIEZAWODNY MODAL STARTOWY */
+        .welcome-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(5, 5, 5, 0.9);
-            backdrop-filter: blur(8px);
-            z-index: 9999;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 99999;
             display: flex;
             justify-content: center;
             align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
         }
 
-        .play-overlay.active {
-            opacity: 1;
+        .welcome-box {
+            background: #111111;
+            border: 2px solid #222222;
+            padding: 30px 20px;
+            border-radius: 15px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
         }
 
-        .play-icon-animation {
-            width: 100px;
-            height: 100px;
-            background: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: scale(0.5);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        .welcome-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
         }
 
-        .play-overlay.active .play-icon-animation {
-            transform: scale(1.2);
+        .welcome-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #dddddd;
+            margin-bottom: 25px;
         }
 
-        .play-icon-animation svg {
-            width: 40px;
-            height: 40px;
-            fill: #050505;
-            margin-left: 5px;
-        }
-
-        /* 100% SPRAWDZONY KOMUNIKAT STARTOWY (MODAL) */
-        .welcome-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .welcome-btn {
+            background: #10b981;
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 10px;
             width: 100%;
+            cursor: pointer;
+        }
+
+        .welcome-btn:hover {
+            background: #059669;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="startPopUp" class="welcome-overlay">
+        <div class="welcome-box">
+            <div class="welcome-icon">🎬</div>
+            <p class="welcome-text">Nowe filmy będą dodawane co jakiś czas, więc odwiedzaj stronę regularnie!</p>
+            <button class="welcome-btn" onclick="document.getElementById('startPopUp').style.display='none';">Przyjmuję do wiadomości</button>
+        </div>
+    </div>
+
+    <header>
+        <div class="logo">LKF</div>
+        <div class="subtitle">Lisecka Kampania Filmowa</div>
+    </header>
+
+    <main class="video-feed">
+        
+        <div class="video-card">
+            <div class="video-container">
+                <iframe src="https://streamable.com/e/b4xaxh" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Początki LKF odc. 1</div>
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="video-container">
+                <iframe src="https://streamable.com/e/472z5x" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Początki LKF odc. 2</div>
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">62</span></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-card">
+            <div class="video-container">
+                <iframe src="https://streamable.com/e/ppshdk" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Początki LKF odc. 3</div>
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">71</span></button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // SYSTEM LAJKÓW
+        function fakeLike(button) {
+            let countSpan = button.querySelector('.like-count');
+            let currentLikes = parseInt(countSpan.innerText);
+            countSpan.innerText = currentLikes + 1;
+            
+            button.disabled = true;
+            button.style.opacity = "0.5";
+        }
+    </script>
+</body>
+</html>
