@@ -82,6 +82,7 @@
             justify-content: center;
             gap: 15px;
             margin-bottom: 50px;
+            flex-wrap: wrap;
         }
 
         .filter-btn {
@@ -95,7 +96,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Efekt podświetlenia i aktywna zakładka */
         .filter-btn:hover {
             color: #ffffff;
             border-color: #555555;
@@ -126,11 +126,10 @@
             overflow: hidden;
             border: 1px solid #1a1a1a;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
             position: relative;
-            opacity: 1;
         }
 
         .video-card:hover {
@@ -304,8 +303,10 @@
 </head>
 <body>
 
+    <!-- Element ozdobnego kursora -->
     <div id="custom-cursor"></div>
 
+    <!-- KOMUNIKAT STARTOWY -->
     <div id="welcomeScreen" class="welcome-backdrop">
         <div class="welcome-box">
             <div class="welcome-logo">LKF</div>
@@ -314,6 +315,7 @@
         </div>
     </div>
 
+    <!-- EKRAN ANIMACJI PLAY -->
     <div id="playAnimationScreen" class="play-overlay">
         <div class="play-icon-animation">
             <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
@@ -324,14 +326,17 @@
         <div class="logo">LKF</div>
         <div class="subtitle">Lisecka Kampania Filmowa</div>
 
+        <!-- MENU ZAKŁADEK FILTRUJĄCYCH -->
         <div class="filter-menu">
             <button class="filter-btn active" onclick="filterVideos('all', this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Wszystkie</button>
             <button class="filter-btn" onclick="filterVideos('poczatki', this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Początki LKF</button>
+            <button class="filter-btn" onclick="filterVideos('ogolne', this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Ogólne</button>
         </div>
     </header>
 
     <main class="video-feed">
         
+        <!-- ODCINEK 1 -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
@@ -345,6 +350,7 @@
             </div>
         </div>
 
+        <!-- ODCINEK 2 -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
@@ -358,6 +364,7 @@
             </div>
         </div>
 
+        <!-- ODCINEK 3 -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-3')"></div>
@@ -367,6 +374,62 @@
                 <div class="video-title">Początki LKF odc. 3</div>
                 <div class="interaction-bar">
                     <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">71</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ODCINEK 4 (NOWY - OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-4')"></div>
+                <iframe id="streamable-frame-4" src="https://streamable.com/e/8njnd1?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Wybory odc. 4</div>
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">45</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ODCINEK 5 (NOWY - OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-5')"></div>
+                <iframe id="streamable-frame-5" src="https://streamable.com/e/6gjz8m?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Obóz odc. 5</div>
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">53</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ODCINEK 6 (NOWY - OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-6')"></div>
+                <iframe id="streamable-frame-6" src="https://streamable.com/e/bgekdj?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Gangster z Poturzyna odc. 6</div>
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">92</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ODCINEK 7 (NOWY - OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-7')"></div>
+                <iframe id="streamable-frame-7" src="https://streamable.com/e/mgi8oj?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Fight Club odc. 7</div>
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">68</span></button>
                 </div>
             </div>
         </div>
@@ -394,13 +457,11 @@
             cursor.style.backgroundColor = '#000000';
         }
 
-        // FUNKCJA FILTROWANIA FILMÓW (ZAKŁADKI)
+        // FUNKCJA FILTROWANIA FILMÓW
         function filterVideos(category, button) {
-            // Zamiana aktywnego przycisku w menu
             document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            // Pokazywanie/Ukrywanie kart filmów
             const cards = document.querySelectorAll('.video-card');
             cards.forEach(card => {
                 if (category === 'all' || card.getAttribute('data-category') === category) {
