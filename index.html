@@ -12,7 +12,7 @@
             font-family: 'Inter', -apple-system, sans-serif;
         }
 
-        /* CZARNY ELEGANCKI KURSOR DLA PC – AKTYWNY NA CAŁEJ STRONIE I ELEMENTACH KLIKALNYCH */
+        /* CZARNY ELEGANCKI KURSOR DLA PC */
         html, body {
             background-color: #050505;
             color: #ffffff;
@@ -62,7 +62,7 @@
             padding-bottom: 100px;
         }
 
-        /* KARTA FILMU Z POTĘŻNYM EFEKTEM PODŚWIETLENIA */
+        /* KARTA FILMU */
         .video-card {
             background: #101010;
             border-radius: 20px;
@@ -187,7 +187,7 @@
             margin-left: 6px;
         }
 
-        /* NOWOCZESNY KOMUNIKAT STARTOWY (MODAL) */
+        /* KOMUNIKAT STARTOWY (MODAL) */
         .welcome-modal {
             position: fixed;
             top: 0;
@@ -200,8 +200,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            opacity: 1;
-            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .modal-content {
@@ -212,97 +210,14 @@
             max-width: 420px;
             width: 90%;
             text-align: center;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 40px rgba(255,255,255,0.03);
-            transform: scale(0.9);
-            animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        @keyframes modalPop {
-            to { transform: scale(1); }
+            box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+            transform: scale(1);
         }
 
         .modal-icon {
             font-size: 2.5rem;
             margin-bottom: 20px;
             display: inline-block;
-            animation: bellRing 1.5s ease infinite alternate;
         }
 
-        @keyframes bellRing {
-            0% { transform: rotate(-10deg); }
-            100% { transform: rotate(10deg); }
-        }
-
-        .modal-text {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #e0e0e0;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-
-        /* ELEGANCKI ZIELONY PRZYCISK ACCENT */
-        .modal-btn {
-            background: #10b981;
-            color: #ffffff;
-            border: none;
-            padding: 14px 28px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            border-radius: 14px;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
-            display: block;
-        }
-
-        .modal-btn:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.5);
-        }
-    </style>
-</head>
-<body>
-
-    <div id="welcomeModal" class="welcome-modal">
-        <div class="modal-content">
-            <div class="modal-icon">🎬</div>
-            <p class="modal-text">Nowe filmy będą dodawane co jakiś czas, więc odwiedzaj stronę regularnie!</p>
-            <button class="modal-btn" onclick="closeWelcomeModal()">Przyjmuję do wiadomości</button>
-        </div>
-    </div>
-
-    <div id="playAnimationScreen" class="play-overlay">
-        <div class="play-icon-animation">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-    </div>
-
-    <header>
-        <div class="logo">LKF</div>
-        <div class="subtitle">Lisecka Kampania Filmowa</div>
-    </header>
-
-    <main class="video-feed">
-        
-        <div class="video-card">
-            <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
-                <iframe id="streamable-frame-1" src="https://streamable.com/e/b4xaxh?autoplay=0" allow="autoplay" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <div class="video-title">Początki LKF odc. 1</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button>
-                </div>
-            </div>
-        </div>
-
-        <div class="video-card">
-            <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
-                <iframe id="streamable-frame-2" src="https://streamable.com/e/472z5x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
-            </div>
-            <div class="video-info">
-                <div class="video-title">Począt
+        .modal-text
