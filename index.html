@@ -21,7 +21,7 @@
 
         /* UKRYWAMY DOMYŚLNY KURSOR SYSTEMOWY NA PC */
         @media (min-width: 769px) {
-            html, body, a, button, .video-card, .video-click-overlay, .welcome-btn, .filter-btn {
+            html, body, a, button, .video-card, .video-click-overlay, .welcome-btn, .filter-btn, .logo {
                 cursor: none !important;
             }
         }
@@ -61,6 +61,7 @@
             text-transform: uppercase;
             display: inline-block;
             transition: transform 0.3s ease;
+            user-select: none;
         }
 
         .logo:hover {
@@ -73,7 +74,40 @@
             text-transform: uppercase;
             color: #555;
             margin-top: 5px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+        }
+
+        /* --- HISTORIA POWSTANIA LKF (PŁYNNE ROZWIJANIE) --- */
+        .history-container {
+            max-width: 650px;
+            margin: 0 auto 35px auto;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, padding 0.4s ease;
+            opacity: 0;
+            background: #0c0c0c;
+            border-radius: 16px;
+            border: 0 solid #1a1a1a;
+            padding: 0 25px;
+            text-align: left;
+        }
+
+        .history-container.open {
+            max-height: 400px; /* Bezpieczna wysokość dla tekstu */
+            opacity: 1;
+            padding: 25px;
+            border-width: 1px;
+            margin-bottom: 45px;
+        }
+
+        .history-text {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: #b0b0b0;
+        }
+
+        .history-text strong {
+            color: #ffffff;
         }
 
         /* --- SEKCJA ZAKŁADEK (FILTRÓW) --- */
@@ -119,7 +153,7 @@
             padding-bottom: 100px;
         }
 
-        /* KARTA FILMU Z POTĘŻNYM EFEKTEM PODŚWIETLENIA (HOVER) */
+        /* KARTA FILMU */
         .video-card {
             background: #101010;
             border-radius: 20px;
@@ -323,8 +357,16 @@
     </div>
 
     <header>
-        <div class="logo">LKF</div>
+        <!-- Logo z funkcją klikania i powiększania kursora -->
+        <div class="logo" onclick="toggleHistory()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">LKF</div>
         <div class="subtitle">Lisecka Kampania Filmowa</div>
+
+        <!-- Ukryta sekcja historii, która wysuwa się płynnie -->
+        <div id="lkfHistory" class="history-container">
+            <p class="history-text">
+                Marka <strong>LKF</strong> powstała na początku 2023 roku w współpracy z uczniami Liceum Ogólnokształcącego w Łaszczowie. Głównym zarządcą kampanii stał się przodek Jaśnieoświeconego z Lisek. Kampania w bardzo szybkim tempie zaczęła zyskiwać popularność i przynosić ogromne zyski. Lisecka Kampania Filmowa do tego momentu otrzymała łącznie 23 nagrody, które były związane z twórczością i niesamowitą jakością materiałów.
+            </p>
+        </div>
 
         <!-- MENU ZAKŁADEK FILTRUJĄCYCH -->
         <div class="filter-menu">
@@ -337,7 +379,7 @@
 
     <main class="video-feed">
         
-        <!-- ODCINEK 1 -->
+        <!-- ODCINKI 1-3 (POCZĄTKI) -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
@@ -345,13 +387,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 1</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">84</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 2 -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
@@ -359,13 +398,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 2</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">62</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">62</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 3 -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-3')"></div>
@@ -373,13 +409,11 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 3</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">71</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">71</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 4 -->
+        <!-- ODCINKI 4-10 (OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-4')"></div>
@@ -387,13 +421,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Wybory odc. 4</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">45</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">45</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 5 -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-5')"></div>
@@ -401,13 +432,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Obóz odc. 5</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">53</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">53</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 6 -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-6')"></div>
@@ -415,13 +443,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Gangster z Poturzyna odc. 6</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">92</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">92</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 7 -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-7')"></div>
@@ -429,13 +454,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Fight Club odc. 7</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">68</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">68</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 8 (NOWY - OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-8')"></div>
@@ -443,13 +465,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Kawiarenka Nieproszeni Goście odc. 8</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">59</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">59</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 9 (NOWY - OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-9')"></div>
@@ -457,13 +476,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Grychu maraton odc. 9</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">41</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">41</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 10 (NOWY - OGÓLNE) -->
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-10')"></div>
@@ -471,13 +487,11 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Incydent w budce telefonicznej odc. 10</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">76</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">76</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 11 (NOWY - RUDY) -->
+        <!-- ODCINKI 11-14 (RUDY) -->
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-11')"></div>
@@ -485,13 +499,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Rudy x BonusRPK odc. 11</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">112</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">112</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 12 (NOWY - RUDY) -->
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-12')"></div>
@@ -499,13 +510,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Rudy Relaks 100% odc. 12</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">89</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">89</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 13 (NOWY - RUDY) -->
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-13')"></div>
@@ -513,13 +521,10 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Rudy mefka odc. 13</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">95</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">95</span></button></div>
             </div>
         </div>
 
-        <!-- ODCINEK 14 (NOWY - RUDY) -->
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-14')"></div>
@@ -527,9 +532,91 @@
             </div>
             <div class="video-info">
                 <div class="video-title">Rudy sigma odc. 14</div>
-                <div class="interaction-bar">
-                    <button class="like-btn" onclick="fakeLike(this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">❤️ <span class="like-count">134</span></button>
-                </div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">134</span></button></div>
+            </div>
+        </div>
+
+        <!-- NOWY: ODCINEK 15 (RUDY) -->
+        <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-15')"></div>
+                <iframe id="streamable-frame-15" src="https://streamable.com/e/a64v6x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Rudy makowiec odc. 15</div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">142</span></button></div>
+            </div>
+        </div>
+
+        <!-- NOWY: ODCINEK 16 (OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-16')"></div>
+                <iframe id="streamable-frame-16" src="https://streamable.com/e/odbeh3?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Partyjka w szachy odc. 16</div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">57</span></button></div>
+            </div>
+        </div>
+
+        <!-- NOWY: ODCINEK 17 (OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-17')"></div>
+                <iframe id="streamable-frame-17" src="https://streamable.com/e/rud0pm?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">DOZE PDW BUDDA odc. 17</div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">210</span></button></div>
+            </div>
+        </div>
+
+        <!-- NOWY: ODCINEK 18 (OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-18')"></div>
+                <iframe id="streamable-frame-18" src="https://streamable.com/e/jfix8b?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Spotkanie po latach odc. 18</div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">64</span></button></div>
+            </div>
+        </div>
+
+        <!-- NOWY: ODCINEK 19 (OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-19')"></div>
+                <iframe id="streamable-frame-19" src="https://streamable.com/e/tmd4z5?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Ben i Homies odc. 19</div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">83</span></button></div>
+            </div>
+        </div>
+
+        <!-- NOWY: ODCINEK 20 (OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-20')"></div>
+                <iframe id="streamable-frame-20" src="https://streamable.com/e/7ey76a?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Kobiety i Toalety odc. 20</div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">77</span></button></div>
+            </div>
+        </div>
+
+        <!-- NOWY: ODCINEK 21 (OGÓLNE) -->
+        <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+            <div class="video-container">
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-21')"></div>
+                <iframe id="streamable-frame-21" src="https://streamable.com/e/8e57jj?autoplay=0" allow="autoplay" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-title">Wpi3rdol w parku odc. 21</div>
+                <div class="interaction-bar"><button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">99</span></button></div>
             </div>
         </div>
 
@@ -554,6 +641,12 @@
             cursor.style.width = '18px';
             cursor.style.height = '18px';
             cursor.style.backgroundColor = '#000000';
+        }
+
+        // PŁYNNE WYSYWANIE HISTORII LKF
+        function toggleHistory() {
+            const historyBox = document.getElementById('lkfHistory');
+            historyBox.classList.toggle('open');
         }
 
         // FUNKCJA FILTROWANIA FILMÓW
