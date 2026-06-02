@@ -137,7 +137,7 @@
 
     <main class="video-feed">
         
-        <!-- FILM 1 (TWÓJ NOWY FILM ZE STREAMABLE) -->
+        <!-- FILM 1 (TWÓJ AKTUALNY FILM ZE STREAMABLE) -->
         <div class="video-card">
             <div class="video-container">
                 <iframe src="https://streamable.com/e/b4xaxh" allowfullscreen></iframe>
@@ -145,7 +145,6 @@
             <div class="video-info">
                 <div class="video-meta">Opublikowano: 2 czerwca 2026</div>
                 <div class="interaction-bar">
-                    <!-- Ustawione 84 lajki na sztywno -->
                     <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button>
                 </div>
             </div>
@@ -159,7 +158,6 @@
             <div class="video-info">
                 <div class="video-meta">Opublikowano: 28 maja 2026</div>
                 <div class="interaction-bar">
-                    <!-- Ustawione 42 lajki na sztywno -->
                     <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">42</span></button>
                 </div>
             </div>
@@ -173,7 +171,6 @@
             <div class="video-info">
                 <div class="video-meta">Opublikowano: 15 maja 2026</div>
                 <div class="interaction-bar">
-                    <!-- Ustawione 67 lajków na sztywno -->
                     <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">67</span></button>
                 </div>
             </div>
@@ -182,13 +179,12 @@
     </main>
 
     <script>
-        // Prosta funkcja, która tylko wizualnie dodaje 1 lajk po kliknięciu przez użytkownika
+        // Funkcja wizualnego dodawania lajka bez bazy danych
         function fakeLike(button) {
             let countSpan = button.querySelector('.like-count');
             let currentLikes = parseInt(countSpan.innerText);
             countSpan.innerText = currentLikes + 1;
             
-            // Blokujemy przycisk, żeby nie klikać bez końca
             button.disabled = true;
             button.style.opacity = "0.5";
         }
