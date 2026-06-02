@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LKF - LISECKA KAMPANIA FILMOWA</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -17,14 +16,11 @@
             background-color: #050505;
             color: #ffffff;
             padding: 40px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .logo {
@@ -34,11 +30,11 @@
             color: #ffffff;
             text-transform: uppercase;
             display: inline-block;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .logo:hover {
-            transform: scale(1.05);
+            transform: scale(1.08);
         }
 
         .subtitle {
@@ -49,17 +45,34 @@
             margin-top: 5px;
         }
 
-        .main-container {
-            max-width: 450px;
-            width: 100%;
+        /* Siatka z filmami - umożliwia scrolowanie w dół */
+        .video-feed {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 50px;
+            padding-bottom: 100px;
+        }
+
+        .video-card {
             background: #101010;
             border-radius: 20px;
             overflow: hidden;
             border: 1px solid #1a1a1a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            border-color: #333;
             box-shadow: 0 20px 40px rgba(0,0,0,0.8);
         }
 
-        /* Format pionowy idealny dla Shorts z Odysee */
+        /* Idealny pionowy format 9:16 pod telefony i Shorts */
         .video-container {
             position: relative;
             padding-bottom: 177.77%; 
@@ -77,13 +90,12 @@
         }
 
         .video-info {
-            padding: 25px;
+            padding: 20px;
         }
 
-        /* Sekcja z datą publikacji */
         .video-meta {
             font-size: 0.8rem;
-            color: #666;
+            color: #555;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 15px;
@@ -91,20 +103,19 @@
 
         .interaction-bar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
-            margin-bottom: 20px;
         }
 
         .like-btn {
             background: #161616;
             border: 1px solid #252525;
             color: #fff;
-            padding: 10px 20px;
+            padding: 10px 18px;
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -115,64 +126,6 @@
             color: #000;
             border-color: #fff;
         }
-
-        .comments-section {
-            border-top: 1px solid #1a1a1a;
-            padding-top: 20px;
-        }
-
-        .comment-input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .comment-input-group input, .comment-input-group textarea {
-            background: #161616;
-            border: 1px solid #252525;
-            color: #fff;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-        }
-
-        .comment-input-group input:focus, .comment-input-group textarea:focus {
-            outline: none;
-            border-color: #fff;
-        }
-
-        .submit-comment-btn {
-            background: #fff;
-            color: #000;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .comments-list {
-            max-height: 250px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .comment {
-            background: #161616;
-            padding: 12px;
-            border-radius: 8px;
-            border-left: 2px solid #fff;
-        }
-
-        .comment-author {
-            font-weight: bold;
-            color: #888;
-            margin-bottom: 4px;
-            font-size: 0.8rem;
-        }
     </style>
 </head>
 <body>
@@ -182,99 +135,62 @@
         <div class="subtitle">Lisecka Kampania Filmowa</div>
     </header>
 
-    <div class="main-container">
-        <div class="video-container">
-            <!-- Tutaj wkleiłem Twój oficjalny odtwarzacz z Odysee -->
-            <iframe src="https://odysee.com/$/embed/@LKF:b/LKF:d" allowfullscreen></iframe>
-        </div>
+    <main class="video-feed">
         
-        <div class="video-info">
-            <!-- Tutaj dodałem datę filmu z platformy Odysee -->
-            <div class="video-meta">Opublikowano: 2 czerwca 2026</div>
-
-            <div class="interaction-bar">
-                <button class="like-btn" onclick="addLike()">❤️ <span id="like-count">0</span></button>
+        <!-- FILM 1 (TWÓJ NOWY FILM ZE STREAMABLE) -->
+        <div class="video-card">
+            <div class="video-container">
+                <iframe src="https://streamable.com/e/b4xaxh" allowfullscreen></iframe>
             </div>
-            
-            <div class="comments-section">
-                <div class="comment-input-group">
-                    <input type="text" id="comment-name" placeholder="Twoje imię...">
-                    <textarea id="comment-text" placeholder="Dodaj komentarz..." rows="2"></textarea>
-                    <button class="submit-comment-btn" onclick="postComment()">Wyślij</button>
-                </div>
-                <div id="comments-list" class="comments-list">
-                    <!-- Komentarze z Supabase pojawią się tutaj -->
+            <div class="video-info">
+                <div class="video-meta">Opublikowano: 2 czerwca 2026</div>
+                <div class="interaction-bar">
+                    <!-- Ustawione 84 lajki na sztywno -->
+                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">84</span></button>
                 </div>
             </div>
         </div>
-    </div>
+
+        <!-- FILM 2 (DODATKOWY FILM DO SCROLLOWANIA) -->
+        <div class="video-card">
+            <div class="video-container">
+                <iframe src="https://streamable.com/e/mo99" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-meta">Opublikowano: 28 maja 2026</div>
+                <div class="interaction-bar">
+                    <!-- Ustawione 42 lajki na sztywno -->
+                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">42</span></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FILM 3 (DODATKOWY FILM DO SCROLLOWANIA) -->
+        <div class="video-card">
+            <div class="video-container">
+                <iframe src="https://streamable.com/e/it5g" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="video-meta">Opublikowano: 15 maja 2026</div>
+                <div class="interaction-bar">
+                    <!-- Ustawione 67 lajków na sztywno -->
+                    <button class="like-btn" onclick="fakeLike(this)">❤️ <span class="like-count">67</span></button>
+                </div>
+            </div>
+        </div>
+
+    </main>
 
     <script>
-        const SUPABASE_URL = "https://iqcvbttwjodlqfmeatai.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_HWLux5LGKVtVS7mEW0aLug_NyFhVR85";
-
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        window.onload = function() {
-            loadLikes();
-            loadComments();
-        };
-
-        async function loadLikes() {
-            let { data, error } = await supabase.from('Lajki').select('liczba').limit(1);
-            if (data && data[0]) {
-                document.getElementById('like-count').innerText = data[0].liczba;
-            }
-        }
-
-        async function addLike() {
-            let countSpan = document.getElementById('like-count');
+        // Prosta funkcja, która tylko wizualnie dodaje 1 lajk po kliknięciu przez użytkownika
+        function fakeLike(button) {
+            let countSpan = button.querySelector('.like-count');
             let currentLikes = parseInt(countSpan.innerText);
-            let newLikes = currentLikes + 1;
+            countSpan.innerText = currentLikes + 1;
             
-            const { error } = await supabase.from('Lajki').update({ liczba: newLikes }).match({ id: 1 });
-            
-            if (!error) {
-                countSpan.innerText = newLikes;
-                document.querySelector('.like-btn').disabled = true;
-                document.querySelector('.like-btn').style.opacity = "0.4";
-            }
-        }
-
-        async function loadComments() {
-            let { data: komentarze, error } = await supabase
-                .from('Komentarze')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            const list = document.getElementById('comments-list');
-            list.innerHTML = "";
-
-            if (komentarze) {
-                komentarze.forEach(c => {
-                    let div = document.createElement('div');
-                    div.className = 'comment';
-                    div.innerHTML = `<div class="comment-author">${c.imie}</div><div>${c.tresc}</div>`;
-                    list.appendChild(div);
-                });
-            }
-        }
-
-        async function postComment() {
-            const nameInput = document.getElementById('comment-name');
-            const textInput = document.getElementById('comment-text');
-
-            if (nameInput.value.trim() === "" || textInput.value.trim() === "") return;
-
-            const { error } = await supabase
-                .from('Komentarze')
-                .insert([{ imie: nameInput.value, tresc: textInput.value }]);
-
-            if (!error) {
-                loadComments();
-                nameInput.value = '';
-                textInput.value = '';
-            }
+            // Blokujemy przycisk, żeby nie klikać bez końca
+            button.disabled = true;
+            button.style.opacity = "0.5";
         }
     </script>
 </body>
