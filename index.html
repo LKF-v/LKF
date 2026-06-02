@@ -5,74 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LKF - LISECKA KAMPANIA FILMOWA</title>
     <style>
-        /* RESET STYLÓW - PODSTAWA STABILNOŚCI */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: sans-serif;
+            font-family: 'Inter', -apple-system, sans-serif;
         }
 
-        body {
-            background-color: #000000;
+        /* 1. ELEGANCKI CZARNY KURSOR (Standardowy CSS - Bezpieczny dla przeglądarek) */
+        html, body {
+            background-color: #050505;
             color: #ffffff;
-            padding: 20px;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="2"><path d="M4.5 2.25l15 11.25-6.75 1.5 4.5 6.75-3 2-4.5-6.75-5.25 4.5z"/></svg>'), auto;
+        }
+
+        /* Kursor wskazujący dla wszystkich elementów klikalnych */
+        button, .video-click-overlay, .welcome-btn {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="black" stroke="white" stroke-width="2"><path d="M4.5 2.25l15 11.25-6.75 1.5 4.5 6.75-3 2-4.5-6.75-5.25 4.5z"/></svg>'), pointer !important;
         }
 
         header {
             text-align: center;
-            margin-top: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .logo {
-            font-size: 4rem;
+            font-size: 5.5rem;
             font-weight: 900;
-            letter-spacing: -2px;
+            letter-spacing: -0.06em;
+            color: #ffffff;
             text-transform: uppercase;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .subtitle {
-            font-size: 0.8rem;
-            letter-spacing: 4px;
+            font-size: 0.85rem;
+            letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: #666666;
+            color: #555;
             margin-top: 5px;
         }
 
-        /* SIATKA Z FILMAMI - RESPONSYWNA I STABILNA */
+        /* SIATKA Z FILMAMI */
         .video-feed {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 30px;
-            padding-bottom: 80px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 50px;
+            padding-bottom: 100px;
         }
 
-        /* KARTA FILMU */
+        /* 2. KARTA FILMU Z POTĘŻNYM EFEKTEM PODŚWIETLENIA (HOVER) */
         .video-card {
-            background: #111111;
-            border-radius: 15px;
+            background: #101010;
+            border-radius: 20px;
             overflow: hidden;
-            border: 1px solid #222222;
+            border: 1px solid #1a1a1a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
-        /* Delikatne podświetlenie karty na komputerach */
-        @media (min-width: 768px) {
-            .video-card:hover {
-                border-color: #555555;
-            }
+        .video-card:hover {
+            transform: translateY(-10px);
+            border-color: #ffffff; /* Biała rozświetlona ramka */
+            box-shadow: 0 0 35px rgba(255, 255, 255, 0.2), 0 20px 40px rgba(0,0,0,0.9);
         }
 
-        /* FORMAT ODTWARZACZA 9:16 */
         .video-container {
             position: relative;
-            padding-bottom: 177.77%;
+            padding-bottom: 177.77%; 
             height: 0;
-            background: #000000;
+            background: #000;
         }
 
         .video-container iframe {
@@ -84,14 +98,25 @@
             border: 0;
         }
 
+        .video-click-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            background: transparent;
+        }
+
         .video-info {
-            padding: 20px;
+            padding: 25px;
+            background: #101010;
         }
 
         .video-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #ffffff;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
             margin-bottom: 15px;
         }
 
@@ -100,68 +125,120 @@
         }
 
         .like-btn {
-            background: #222222;
-            border: 1px solid #333333;
-            color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 20px;
+            background: #161616;
+            border: 1px solid #252525;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 30px;
             font-weight: 600;
-            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            transition: background 0.2s;
         }
 
         .like-btn:hover {
-            background: #333333;
+            background: #252525;
         }
 
-        /* PROSTY I NIEZAWODNY MODAL STARTOWY */
-        .welcome-overlay {
+        /* 3. KINOWA ANIMACJA PLAY NA PEŁNY EKRAN */
+        .play-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 99999;
+            background: rgba(5, 5, 5, 0.92);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .play-overlay.active {
+            opacity: 1;
+        }
+
+        .play-icon-animation {
+            width: 110px;
+            height: 110px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: scale(0.4);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 0 50px rgba(255,255,255,0.6);
+        }
+
+        .play-overlay.active .play-icon-animation {
+            transform: scale(1.2);
+        }
+
+        .play-icon-animation svg {
+            width: 45px;
+            height: 45px;
+            fill: #050505;
+            margin-left: 6px;
+        }
+
+        /* 4. ELEGANCKI KOMUNIKAT STARTOWY */
+        .welcome-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000000; /* Głęboka czerń, chroni przed błędami renderowania */
+            z-index: 100000;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
         .welcome-box {
-            background: #111111;
-            border: 2px solid #222222;
-            padding: 30px 20px;
-            border-radius: 15px;
-            max-width: 380px;
-            width: 90%;
+            background: #0d0d0d;
+            border: 1px solid #222222;
+            padding: 40px 30px;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 88%;
             text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
         }
 
-        .welcome-icon {
-            font-size: 2rem;
-            margin-bottom: 15px;
+        /* Nowe logo LKF bez spacji i przerw */
+        .welcome-logo {
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -2px; /* Ściśnięte literki */
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-transform: uppercase;
         }
 
         .welcome-text {
-            font-size: 1rem;
-            line-height: 1.5;
-            color: #dddddd;
-            margin-bottom: 25px;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #cdcdcd;
+            margin-bottom: 30px;
+            font-weight: 400;
         }
 
         .welcome-btn {
             background: #10b981;
             color: #ffffff;
             border: none;
-            padding: 12px 20px;
-            font-size: 1rem;
+            padding: 14px 24px;
+            font-size: 0.95rem;
             font-weight: 700;
-            border-radius: 10px;
+            border-radius: 12px;
             width: 100%;
-            cursor: pointer;
+            transition: background 0.2s;
         }
 
         .welcome-btn:hover {
@@ -171,11 +248,17 @@
 </head>
 <body>
 
-    <div id="startPopUp" class="welcome-overlay">
+    <div id="welcomeScreen" class="welcome-backdrop">
         <div class="welcome-box">
-            <div class="welcome-icon">🎬</div>
+            <div class="welcome-logo">LKF</div>
             <p class="welcome-text">Nowe filmy będą dodawane co jakiś czas, więc odwiedzaj stronę regularnie!</p>
-            <button class="welcome-btn" onclick="document.getElementById('startPopUp').style.display='none';">Przyjmuję do wiadomości</button>
+            <button class="welcome-btn" onclick="document.getElementById('welcomeScreen').style.display='none';">Przyjmuję do wiadomości</button>
+        </div>
+    </div>
+
+    <div id="playAnimationScreen" class="play-overlay">
+        <div class="play-icon-animation">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
         </div>
     </div>
 
@@ -188,7 +271,8 @@
         
         <div class="video-card">
             <div class="video-container">
-                <iframe src="https://streamable.com/e/b4xaxh" allowfullscreen></iframe>
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
+                <iframe id="streamable-frame-1" src="https://streamable.com/e/b4xaxh?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 1</div>
@@ -200,7 +284,8 @@
 
         <div class="video-card">
             <div class="video-container">
-                <iframe src="https://streamable.com/e/472z5x" allowfullscreen></iframe>
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
+                <iframe id="streamable-frame-2" src="https://streamable.com/e/472z5x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 2</div>
@@ -212,7 +297,8 @@
 
         <div class="video-card">
             <div class="video-container">
-                <iframe src="https://streamable.com/e/ppshdk" allowfullscreen></iframe>
+                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-3')"></div>
+                <iframe id="streamable-frame-3" src="https://streamable.com/e/ppshdk?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
                 <div class="video-title">Początki LKF odc. 3</div>
@@ -225,7 +311,22 @@
     </main>
 
     <script>
-        // SYSTEM LAJKÓW
+        // KINOWA ANIMACJA PLAY
+        function triggerPlayAnimation(overlayElement, iframeId) {
+            const animationScreen = document.getElementById('playAnimationScreen');
+            const iframe = document.getElementById(iframeId);
+            
+            animationScreen.classList.add('active');
+            overlayElement.remove();
+            
+            setTimeout(() => {
+                animationScreen.classList.remove('active');
+                let currentSrc = iframe.src;
+                iframe.src = currentSrc.replace('autoplay=0', 'autoplay=1');
+            }, 900);
+        }
+
+        // PRZYCISK LAJKA
         function fakeLike(button) {
             let countSpan = button.querySelector('.like-count');
             let currentLikes = parseInt(countSpan.innerText);
