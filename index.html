@@ -21,7 +21,7 @@
 
         /* UKRYWAMY DOMYŚLNY KURSOR SYSTEMOWY NA PC */
         @media (min-width: 769px) {
-            html, body, a, button, .video-card, .video-click-overlay, .welcome-btn {
+            html, body, a, button, .video-card, .video-click-overlay, .welcome-btn, .filter-btn {
                 cursor: none !important;
             }
         }
@@ -35,14 +35,13 @@
             border-radius: 50%;
             position: fixed;
             transform: translate(-50%, -50%);
-            pointer-events: none; /* Kursor nie blokuje kliknięć! */
+            pointer-events: none;
             z-index: 9999999;
             transition: width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
             box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
             display: none;
         }
 
-        /* Pokazujemy customowy kursor tylko na urządzeniach z myszką (PC) */
         @media (min-width: 769px) {
             #custom-cursor {
                 display: block;
@@ -51,7 +50,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 40px;
         }
 
         .logo {
@@ -74,6 +73,40 @@
             text-transform: uppercase;
             color: #555;
             margin-top: 5px;
+            margin-bottom: 30px;
+        }
+
+        /* --- SEKCJA ZAKŁADEK (FILTRÓW) --- */
+        .filter-menu {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .filter-btn {
+            background: #111111;
+            color: #888888;
+            border: 1px solid #222222;
+            padding: 10px 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+
+        /* Efekt podświetlenia i aktywna zakładka */
+        .filter-btn:hover {
+            color: #ffffff;
+            border-color: #555555;
+            background: #161616;
+        }
+
+        .filter-btn.active {
+            background: #ffffff;
+            color: #050505;
+            border-color: #ffffff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
         }
 
         /* SIATKA Z FILMAMI */
@@ -93,15 +126,16 @@
             overflow: hidden;
             border: 1px solid #1a1a1a;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.4s ease;
             display: flex;
             flex-direction: column;
             position: relative;
+            opacity: 1;
         }
 
         .video-card:hover {
             transform: translateY(-10px);
-            border-color: #ffffff; /* Biała rozświetlona ramka */
+            border-color: #ffffff;
             box-shadow: 0 0 35px rgba(255, 255, 255, 0.2), 0 20px 40px rgba(0,0,0,0.9);
         }
 
@@ -289,11 +323,16 @@
     <header>
         <div class="logo">LKF</div>
         <div class="subtitle">Lisecka Kampania Filmowa</div>
+
+        <div class="filter-menu">
+            <button class="filter-btn active" onclick="filterVideos('all', this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Wszystkie</button>
+            <button class="filter-btn" onclick="filterVideos('poczatki', this)" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">Początki LKF</button>
+        </div>
     </header>
 
     <main class="video-feed">
         
-        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+        <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
                 <iframe id="streamable-frame-1" src="https://streamable.com/e/b4xaxh?autoplay=0" allow="autoplay" allowfullscreen></iframe>
@@ -306,7 +345,7 @@
             </div>
         </div>
 
-        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+        <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
                 <iframe id="streamable-frame-2" src="https://streamable.com/e/472z5x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
@@ -319,7 +358,7 @@
             </div>
         </div>
 
-        <div class="video-card" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
+        <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
                 <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-3')"></div>
                 <iframe id="streamable-frame-3" src="https://streamable.com/e/ppshdk?autoplay=0" allow="autoplay" allowfullscreen></iframe>
@@ -335,7 +374,7 @@
     </main>
 
     <script>
-        // SKRYPT SŁUŻĄCY DO OBSŁUGI CUSTOMOWEGO KURSORA
+        // OBSŁUGA CUSTOMOWEGO KURSORA
         const cursor = document.getElementById('custom-cursor');
         
         document.addEventListener('mousemove', (e) => {
@@ -343,7 +382,6 @@
             cursor.style.top = e.clientY + 'px';
         });
 
-        // Powiększenie kółka po najechaniu na interaktywne sekcje
         function expandCursor() {
             cursor.style.width = '32px';
             cursor.style.height = '32px';
@@ -354,6 +392,23 @@
             cursor.style.width = '18px';
             cursor.style.height = '18px';
             cursor.style.backgroundColor = '#000000';
+        }
+
+        // FUNKCJA FILTROWANIA FILMÓW (ZAKŁADKI)
+        function filterVideos(category, button) {
+            // Zamiana aktywnego przycisku w menu
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Pokazywanie/Ukrywanie kart filmów
+            const cards = document.querySelectorAll('.video-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
 
         // KINOWA ANIMACJA PLAY
