@@ -78,7 +78,7 @@
             margin-bottom: 25px;
         }
 
-        /* --- NOWY EKRAN HISTORII (MODAL ROYAL) --- */
+        /* --- OKNO MODALNE Z HISTORIĄ LKF --- */
         .history-overlay {
             position: fixed;
             top: 0;
@@ -119,7 +119,6 @@
             transform: scale(1) translateY(0);
         }
 
-        /* Minimalistyczny, elegancki krzyżyk zamykania */
         .history-close {
             position: absolute;
             top: 25px;
@@ -163,7 +162,7 @@
         }
 
         .history-text .gold-text {
-            color: #d4af37; /* Delikatny złoty akcent królewski */
+            color: #d4af37;
             font-weight: 700;
         }
 
@@ -245,6 +244,7 @@
             border: 0;
         }
 
+        /* NAKŁADKA DO KLIKANIA - TERAZ ODPOWIADA TEŻ ZA LOKALNĄ ANIMACJĘ */
         .video-click-overlay {
             position: absolute;
             top: 0;
@@ -252,7 +252,44 @@
             width: 100%;
             height: 100%;
             z-index: 5;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.4s ease;
+        }
+
+        /* NOWA LOKALNA IKONA PLAY WEWNĄTRZ KAŻDEGO FILMU */
+        .local-play-icon {
+            width: 80px;
+            height: 80px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.6);
+            pointer-events: none;
+        }
+
+        .local-play-icon svg {
+            width: 32px;
+            height: 32px;
+            fill: #050505;
+            margin-left: 4px;
+        }
+
+        /* STAN PO KLIKNIĘCIU */
+        .video-click-overlay.clicked {
+            background-color: rgba(5, 5, 5, 0.85);
+        }
+
+        .video-click-overlay.clicked .local-play-icon {
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         .video-info {
@@ -286,51 +323,6 @@
 
         .like-btn:hover {
             background: #252525;
-        }
-
-        /* KINOWA ANIMACJA PLAY NA PEŁNY EKRAN */
-        .play-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 5, 5, 0.92);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-
-        .play-overlay.active {
-            opacity: 1;
-        }
-
-        .play-icon-animation {
-            width: 110px;
-            height: 110px;
-            background: #ffffff;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transform: scale(0.4);
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 0 50px rgba(255,255,255,0.6);
-        }
-
-        .play-overlay.active .play-icon-animation {
-            transform: scale(1.2);
-        }
-
-        .play-icon-animation svg {
-            width: 45px;
-            height: 45px;
-            fill: #050505;
-            margin-left: 6px;
         }
 
         /* ELEGANCKI KOMUNIKAT STARTOWY */
@@ -396,7 +388,7 @@
 
     <div id="custom-cursor"></div>
 
-    <!-- KOMUNIKAT STARTOWY (Odblokowuje też audio w przeglądarce) -->
+    <!-- KOMUNIKAT STARTOWY -->
     <div id="welcomeScreen" class="welcome-backdrop">
         <div class="welcome-box">
             <div class="welcome-logo">LKF</div>
@@ -405,19 +397,13 @@
         </div>
     </div>
 
-    <div id="playAnimationScreen" class="play-overlay">
-        <div class="play-icon-animation">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-    </div>
-
     <!-- KINOWE OKNO MODALNE Z HISTORIĄ LKF -->
     <div id="historyOverlay" class="history-overlay" onclick="closeHistoryViaOverlay(event)">
         <div class="history-modal">
             <button class="history-close" onclick="closeHistory()" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">✕</button>
-            <div class="history-title">Królewska Kronika LKF</div>
+            <div class="history-title">HISTORIA LKF</div>
             <p class="history-text">
-                Marka <strong>LKF</strong> powstała na początku 2023 roku w współpracy z uczniemi Liceum Ogólnokształcącego w Łaszczowie. Głównym zarządcą kampanii stał się przodek Jaśnieoświeconego z Lisek. Kampania w bardzo szybkim tempie zaczęła zyskiwać popularność i przynosić ogromne zyski. <br><br>
+                Marka <strong>LKF</strong> powstała na początku 2023 roku w współpracy z uczniami Liceum Ogólnokształcącego w Łaszczowie. Głównym zarządcą kampanii stał się przodek Jaśnieoświeconego z Lisek. Kampania w bardzo szybkim tempie zaczęła zyskiwać popularność i przynosić ogromne zyski. <br><br>
                 Lisecka Kampania Filmowa do tego momentu otrzymała łącznie <span class="gold-text">23 nagrody</span>, które były związane z twórczością i niesamowitą jakością materiałów. Ta unikalna filmowa inicjatywa na stałe wpisała się w kanon nowoczesnej sztuki niezależnej, łącząc pasję młodego pokolenia z bezkompromisowym wizjonerstwem. Dziedzictwo LKF trwa nieprzerwanie, przesuwając granice kinematografii z każdym kolejnym odcinkiem.
             </p>
         </div>
@@ -436,10 +422,12 @@
     </header>
 
     <main class="video-feed">
-        <!-- Sekcja wideo pozostaje taka sama -->
+        <!-- DO KAŻDEGO FILMU DODAŁEM WEWNĘTRZNĄ IKONĘ PLAY -->
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-1')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-1')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-1" src="https://streamable.com/e/b4xaxh?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -450,7 +438,9 @@
 
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-2')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-2')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-2" src="https://streamable.com/e/472z5x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -461,7 +451,9 @@
 
         <div class="video-card" data-category="poczatki" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-3')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-3')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-3" src="https://streamable.com/e/ppshdk?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -472,7 +464,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-4')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-4')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-4" src="https://streamable.com/e/8njnd1?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -483,7 +477,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-5')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-5')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-5" src="https://streamable.com/e/6gjz8m?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -494,7 +490,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-6')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-6')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-6" src="https://streamable.com/e/bgekdj?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -505,7 +503,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-7')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-7')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-7" src="https://streamable.com/e/mgi8oj?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -516,7 +516,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-8')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-8')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-8" src="https://streamable.com/e/emijdp?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -527,7 +529,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-9')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-9')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-9" src="https://streamable.com/e/xyo0ib?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -538,7 +542,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-10')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-10')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-10" src="https://streamable.com/e/z5zg9w?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -549,7 +555,9 @@
 
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-11')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-11')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-11" src="https://streamable.com/e/dv869d?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -560,7 +568,9 @@
 
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-12')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-12')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-12" src="https://streamable.com/e/4kq8kk?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -571,7 +581,9 @@
 
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-13')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-13')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-13" src="https://streamable.com/e/cfz29g?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -582,7 +594,9 @@
 
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-14')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-14')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-14" src="https://streamable.com/e/mnqj5v?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -593,7 +607,9 @@
 
         <div class="video-card" data-category="rudy" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-15')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-15')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-15" src="https://streamable.com/e/a64v6x?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -604,7 +620,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-16')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-16')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-16" src="https://streamable.com/e/odbeh3?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -615,7 +633,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-17')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-17')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-17" src="https://streamable.com/e/rud0pm?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -626,7 +646,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-18')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-18')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-18" src="https://streamable.com/e/jfix8b?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -637,7 +659,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-19')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-19')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-19" src="https://streamable.com/e/tmd4z5?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -648,7 +672,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-20')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-20')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-20" src="https://streamable.com/e/7ey76a?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -659,7 +685,9 @@
 
         <div class="video-card" data-category="ogolne" onmouseenter="expandCursor()" onmouseleave="shrinkCursor()">
             <div class="video-container">
-                <div class="video-click-overlay" onclick="triggerPlayAnimation(this, 'streamable-frame-21')"></div>
+                <div class="video-click-overlay" onclick="triggerLocalPlay(this, 'streamable-frame-21')">
+                    <div class="local-play-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                </div>
                 <iframe id="streamable-frame-21" src="https://streamable.com/e/8e57jj?autoplay=0" allow="autoplay" allowfullscreen></iframe>
             </div>
             <div class="video-info">
@@ -670,87 +698,96 @@
     </main>
 
     <script>
-        // SYSTEM SYNTETYZOWANIA AUDIO (Rozwiązuje problem blokad i braku plików)
         let audioCtx = null;
 
         function initAudioAndCloseWelcome() {
-            // Inicjalizujemy system audio po kliknięciu użytkownika
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
             document.getElementById('welcomeScreen').style.display = 'none';
         }
 
-        // GENERATOR SZELESTU PAPIERU (Filtrowany szum biały)
-        function playPaperSound() {
+        // DŹWIĘK LOGA (Premium Swoosh + Chime)
+        function playPremiumInterfaceSound() {
             if (!audioCtx) return;
-            
-            const bufferSize = audioCtx.sampleRate * 0.4; // 0.4 sekundy szelestu
-            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-            const data = buffer.getChannelData(0);
-            
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
-
-            const noise = audioCtx.createBufferSource();
-            noise.buffer = buffer;
-
-            // Filtr nadający dźwiękowi "papierowy" charakter
-            const filter = audioCtx.createBiquadFilter();
-            filter.type = 'bandpass';
-            filter.frequency.value = 1200;
-            filter.Q.value = 1.5;
-
-            const gain = audioCtx.createGain();
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-
-            noise.connect(filter);
-            filter.connect(gain);
-            gain.connect(audioCtx.destination);
-            noise.start();
-        }
-
-        // GENERATOR MUZYKI KRÓLEWSKIEJ (Dostojne filmowe uderzenie)
-        function playRoyalFanfare() {
-            if (!audioCtx) return;
-
             const now = audioCtx.currentTime;
+            const premiumChimes = [523.25, 659.25, 783.99, 1046.50];
             
-            // Królewskie akordy (częstotliwości nut: C3, G3, C4, E4, G4)
-            const royalChords = [130.81, 196.00, 261.63, 329.63, 392.00];
-            
-            royalChords.forEach((freq, index) => {
+            premiumChimes.forEach((freq, index) => {
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                
-                // Używamy fali piłokształtnej i trójkątnej dla efektu instrumentów dętych/smyczkowych
-                osc.type = index % 2 === 0 ? 'sawtooth' : 'triangle';
+                osc.type = 'sine';
                 osc.frequency.setValueAtTime(freq, now);
-                
-                // Delikatne opóźnienie wyższych nut dodaje kinowej przestrzeni
-                const startDelay = index * 0.03;
+                const delay = index * 0.04;
                 
                 gain.gain.setValueAtTime(0, now);
-                gain.gain.linearRampToValueAtTime(0.08, now + startDelay + 0.1); 
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 2.5); // Dźwięk wybrzmiewa przez 2.5 sekundy
+                gain.gain.linearRampToValueAtTime(0.04, now + delay + 0.02);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + delay + 0.8);
 
-                // Filtr wygładzający ostre kinowe brzmienie
-                const lowpass = audioCtx.createBiquadFilter();
-                lowpass.type = 'lowpass';
-                lowpass.frequency.setValueAtTime(1500, now);
-
-                osc.connect(lowpass);
-                lowpass.connect(gain);
+                osc.connect(gain);
                 gain.connect(audioCtx.destination);
-                
-                osc.start(now + startDelay);
-                osc.stop(now + 2.6);
+                osc.start(now + delay);
+                osc.stop(now + delay + 0.9);
             });
+
+            const subOsc = audioCtx.createOscillator();
+            const subGain = audioCtx.createGain();
+            subOsc.type = 'triangle';
+            subOsc.frequency.setValueAtTime(140, now);
+            subOsc.frequency.exponentialRampToValueAtTime(55, now + 0.4);
+            
+            subGain.gain.setValueAtTime(0.12, now);
+            subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+            
+            const lowpass = audioCtx.createBiquadFilter();
+            lowpass.type = 'lowpass';
+            lowpass.frequency.setValueAtTime(200, now);
+            
+            subOsc.connect(lowpass);
+            lowpass.connect(subGain);
+            subGain.connect(audioCtx.destination);
+            subOsc.start(now);
+            subOsc.stop(now + 0.5);
         }
 
-        // OBSŁUGA CUSTOMOWEGO KURSORA
+        // NOWY ELEGANCKI DŹWIĘK URUCHAMIANIA FILMU (Cinematic Pop & Bass Click)
+        function playVideoLaunchSound() {
+            if (!audioCtx) return;
+            const now = audioCtx.currentTime;
+
+            // Główny "klik" o niskiej, technologicznej częstotliwości
+            const clickOsc = audioCtx.createOscillator();
+            const clickGain = audioCtx.createGain();
+            
+            clickOsc.type = 'sine';
+            clickOsc.frequency.setValueAtTime(180, now);
+            // Szybkie opadanie częstotliwości nadaje dynamiki
+            clickOsc.frequency.exponentialRampToValueAtTime(60, now + 0.15);
+            
+            clickGain.gain.setValueAtTime(0.25, now);
+            clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+
+            // Subtelny, wysoki "szklany" refleks w tle dający uczucie nowoczesności
+            const pingOsc = audioCtx.createOscillator();
+            const pingGain = audioCtx.createGain();
+            pingOsc.type = 'sine';
+            pingOsc.frequency.setValueAtTime(880, now); // Wysoka nuta A5
+            pingGain.gain.setValueAtTime(0.03, now);
+            pingGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+            clickOsc.connect(clickGain);
+            clickGain.connect(audioCtx.destination);
+            
+            pingOsc.connect(pingGain);
+            pingGain.connect(audioCtx.destination);
+
+            clickOsc.start(now);
+            clickOsc.stop(now + 0.25);
+            pingOsc.start(now);
+            pingOsc.stop(now + 0.35);
+        }
+
+        // KURSOR
         const cursor = document.getElementById('custom-cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
@@ -769,14 +806,15 @@
             cursor.style.backgroundColor = '#000000';
         }
 
-        // OTWIRANIE I ZAMYKANIE MODALA
+        // HISTORIA LKF
         function openHistory() {
             document.getElementById('historyOverlay').classList.add('open');
-            
-            // Uruchomienie efektów dźwiękowych bezpośrednio w przeglądarce
-            playPaperSound();
-            playRoyalFanfare();
+            playPremiumInterfaceSound();
         }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeHistory();
+        });
 
         function closeHistory() {
             document.getElementById('historyOverlay').classList.remove('open');
@@ -802,18 +840,22 @@
             });
         }
 
-        function triggerPlayAnimation(overlayElement, iframeId) {
-            const animationScreen = document.getElementById('playAnimationScreen');
+        // NOWA AKTUALIZACJA: LOKALNE URUCHAMIANIE FILMU I ANIMACJA UX
+        function triggerLocalPlay(overlayElement, iframeId) {
             const iframe = document.getElementById(iframeId);
             
-            animationScreen.classList.add('active');
-            overlayElement.remove();
+            // 1. Odpalenie nowoczesnego dźwięku kliknięcia w film
+            playVideoLaunchSound();
             
+            // 2. Aktywacja lokalnych klas CSS (kółko play powiększa się na filmie)
+            overlayElement.classList.add('clicked');
+            
+            // 3. Po zakończeniu animacji podmieniamy źródło na Autoplay i usuwamy nakładkę
             setTimeout(() => {
-                animationScreen.classList.remove('active');
                 let currentSrc = iframe.src;
                 iframe.src = currentSrc.replace('autoplay=0', 'autoplay=1');
-            }, 900);
+                overlayElement.remove();
+            }, 500); // 0.5 sekundy płynnego przejścia wizualnego
         }
 
         function fakeLike(button) {
