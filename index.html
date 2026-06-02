@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LKF - LISECKA KAMPANIA FILMOWA</title>
+    <style>
+        /* Nowoczesny reset i czarny klimat */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            padding: 40px 20px;
+        }
+
+        /* LOGO: Biały, gruby napis, bez przerw */
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: -0.05em; /* Ściśnięte literki */
+            color: #ffffff;
+            text-transform: uppercase;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* Siatka z filmami */
+        .video-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        /* Karta filmu z animacją */
+        .video-card {
+            background: #121212;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #222;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .video-card:hover {
+            transform: translateY(-8px);
+            border-color: #444;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Miejsce na wideo (odtwarzacz) */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Proporcje 16:9 */
+            height: 0;
+            background: #000;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* Sekcja interakcji (Lajki i Komentarze pod filmem) */
+        .video-info {
+            padding: 20px;
+        }
+
+        .interaction-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .like-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .like-btn:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        /* Sekcja komentarzy */
+        .comments-section {
+            border-top: 1px solid #222;
+            padding-top: 15px;
+        }
+
+        .comment-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .comment-input-group input, .comment-input-group textarea {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .comment-input-group input:focus, .comment-input-group textarea:focus {
+            outline: none;
+            border-color: #fff;
+        }
+
+        .submit-comment-btn {
+            background: #fff;
+            color: #000;
+            border: none;
+            padding: 8px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .comments-list {
+            max-height: 150px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+        }
+
+        .comment {
+            margin-bottom: 10px;
+            background: #1a1a1a;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #aaa;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">LKF</div>
+        <div class="subtitle">Lisecka Kampania Filmowa</div>
+    </header>
+
+    <main class="video-grid">
+        
+        <!-- Przykładowa karta filmu (powielasz ją dla kolejnych filmów) -->
+        <div class="video-card">
+            <div class="video-container">
+                <!-- Tutaj wklejasz kod EMBED z YouTube (teraz jest tu przykładowy) -->
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            </div>
+            <div class="video-info">
+                <div class="interaction-bar">
+                    <button class="like-btn" onclick="addLike(this)">❤️ <span class="like-count">12</span></button>
+                </div>
+                
+                <div class="comments-section">
+                    <div class="comment-input-group">
+                        <input type="text" placeholder="Twoje imię..." class="comment-name">
+                        <textarea placeholder="Dodaj komentarz..." rows="2" class="comment-text"></textarea>
+                        <button class="submit-comment-btn" onclick="postComment(this)">Wyślij</button>
+                    </div>
+                    <div class="comments-list">
+                        <div class="comment">
+                            <div class="comment-author">Kamil</div>
+                            <div>Genialne ujęcia! Czekam na więcej.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Prosta logika tymczasowa (działa do odświeżenia strony)
+        function addLike(button) {
+            let countSpan = button.querySelector('.like-count');
+            let currentLikes = parseInt(countSpan.innerText);
+            countSpan.innerText = currentLikes + 1;
+            button.disabled = true; // Blokada ponownego kliknięcia
+        }
+
+        function postComment(button) {
+            let card = button.closest('.video-info');
+            let nameInput = card.querySelector('.comment-name');
+            let textInput = card.querySelector('.comment-text');
+            let commentsList = card.querySelector('.comments-list');
+
+            if(nameInput.value.trim() === "" || textInput.value.trim() === "") return;
+
+            let newComment = document.createElement('div');
+            newComment.className = 'comment';
+            newComment.innerHTML = `<div class="comment-author">${nameInput.value}</div><div>${textInput.value}</div>`;
+            
+            commentsList.insertBefore(newComment, commentsList.firstChild);
+            
+            // Czyszczenie pól
+            nameInput.value = '';
+            textInput.value = '';
+        }
+    </script>
+</body>
+</html>
